@@ -25,7 +25,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>..\..\..\..\Lib\My-Package\Src\Framework\.NET\CsharpLazycode\</OutputPath>
+    <OutputPath>..\..\Lib\My-Package\Src\Framework\.NET\CsharpLazycode\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -34,7 +34,8 @@
     <SignAssembly>false</SignAssembly>
   </PropertyGroup>
   <PropertyGroup>
-    <AssemblyOriginatorKeyFile>SN.pfx</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>
+    </AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
@@ -83,6 +84,9 @@
     <Compile Include="Module\Laycode\words.cs" />
     <Compile Include="Module\MD5\MD5.cs" />
     <Compile Include="Module\MySystem\MySystem.cs" />
+    <Compile Include="Module\NPinyin\Pinyin.cs" />
+    <Compile Include="Module\NPinyin\PyCode.cs" />
+    <Compile Include="Module\NPinyin\PyHash.cs" />
     <Compile Include="Module\Process\Process.cs" />
     <Compile Include="Module\RandomSugar\RandomSugar.cs" />
     <Compile Include="Module\requireAdministrator\requireAdministrator.cs" />
@@ -95,9 +99,6 @@
     </Compile>
     <Compile Include="Module\WindowsService\WindowsServiceContainer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="SN.pfx" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -100,11 +100,25 @@ namespace CsharpLazycode.Module.MySystem
         }
 
         public static MemoryInfo GetMemoryInfo()
-        { 
+        {
             var memoryInfo = new MemoryInfo();
-            memoryInfo.totalSize = Convert.ToUInt64(get_TotalPhysicalMemory());
-            memoryInfo.totalSizestr = CsharpLazycode.Module.HardDisk.size.Util.GetString(Convert.ToInt64(memoryInfo.totalSize));
-            memoryInfo.Percent = (Convert.ToDecimal(get_utilization_rate())).ToString("0.00") + "%";
+
+            try
+            {
+                memoryInfo.totalSize = Convert.ToUInt64(get_TotalPhysicalMemory());
+                memoryInfo.totalSizestr = CsharpLazycode.Module.HardDisk.size.Util.GetString(Convert.ToInt64(memoryInfo.totalSize));
+                memoryInfo.Percent = (Convert.ToDecimal(get_utilization_rate())).ToString("0.00") + "%";
+            }
+            catch (Exception ex)
+            {
+                memoryInfo.totalSize = 0;
+                memoryInfo.totalSizestr = "异常";
+                memoryInfo.Percent = "异常" + "%";
+
+                var exErr = string.Format("异常[{0}]:{1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.Message);
+                Console.WriteLine(exErr);
+
+            }
 
             return memoryInfo;
         }
@@ -125,8 +139,21 @@ namespace CsharpLazycode.Module.MySystem
         {
 
             var cpuInfo = new CpuInfo();
-            cpuInfo.total = 1;
-            cpuInfo.Percent = (Convert.ToDecimal(getCPUCounter())).ToString("0.00") + "%";
+
+            try
+            {
+                cpuInfo.total = 1;
+                cpuInfo.Percent = (Convert.ToDecimal(getCPUCounter())).ToString("0.00") + "%";
+            }
+            catch (Exception ex)
+            {
+                cpuInfo.total = 1;
+                cpuInfo.Percent = "异常" + "%"; 
+
+                var exErr = string.Format("异常[{0}]:{1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.Message);
+                Console.WriteLine(exErr);
+            } 
+
             return cpuInfo;
         }
 
