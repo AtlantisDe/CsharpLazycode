@@ -9,9 +9,10 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>CsharpLazycode</RootNamespace>
     <AssemblyName>CsharpLazycode</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -21,6 +22,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -29,6 +31,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup>
     <SignAssembly>false</SignAssembly>
@@ -47,6 +50,7 @@
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Management" />
+    <Reference Include="System.Runtime.Caching" />
     <Reference Include="System.ServiceProcess" />
     <Reference Include="System.Web" />
     <Reference Include="System.Windows.Forms" />
@@ -66,13 +70,23 @@
     <Compile Include="Module\EncodingClass\FullHalfAngleConvert.cs" />
     <Compile Include="Module\EncodingClass\TextFileEncodingDetector.cs" />
     <Compile Include="Module\Exception\Easyexception.cs" />
+    <Compile Include="Module\Extensions\CharExtenions.cs" />
+    <Compile Include="Module\Extensions\DynamicExtensions.cs" />
+    <Compile Include="Module\Extensions\GuidExtenions.cs" />
+    <Compile Include="Module\Extensions\HashtableExtenions.cs" />
     <Compile Include="Module\Extensions\FormUrlEncodedContentExtension.cs" />
     <Compile Include="Module\Extensions\IsWhatExtenions.cs" />
+    <Compile Include="Module\Extensions\ListExtenions.cs" />
+    <Compile Include="Module\Extensions\CookieContainerExtenions.cs" />
+    <Compile Include="Module\Extensions\DataGridViewExtenions.cs" />
+    <Compile Include="Module\Extensions\DateTimeExtenions.cs" />
+    <Compile Include="Module\Extensions\byteExtenions.cs" />
+    <Compile Include="Module\Extensions\StringExtenions.cs" />
     <Compile Include="Module\HardDisk\HardDisk.cs" />
     <Compile Include="Module\HardDisk\HardDiskPartition.cs" />
     <Compile Include="Module\HardDisk\size.cs" />
     <Compile Include="Module\IO\IO.cs" />
-    <Compile Include="Module\Laycode\ContextMenu.cs" />
+    <Compile Include="Module\Laycode\PcContextMenu\ContextMenu.cs" />
     <Compile Include="Module\Laycode\Directory.cs" />
     <Compile Include="Module\Laycode\File.cs" />
     <Compile Include="Module\Laycode\INIFile.cs" />
@@ -82,7 +96,9 @@
     <Compile Include="Module\Laycode\Path.cs" />
     <Compile Include="Module\Laycode\stringExp.cs" />
     <Compile Include="Module\Laycode\words.cs" />
+    <Compile Include="Module\Logs\DataGridView\Log.cs" />
     <Compile Include="Module\MD5\MD5.cs" />
+    <Compile Include="Module\MemoryCacheHelper\CacheHelper\Util.cs" />
     <Compile Include="Module\MySystem\MySystem.cs" />
     <Compile Include="Module\NPinyin\Pinyin.cs" />
     <Compile Include="Module\NPinyin\PyCode.cs" />

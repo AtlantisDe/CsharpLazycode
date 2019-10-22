@@ -66,6 +66,7 @@ namespace CsharpLazycode.Module.Laycode
         }
         public class Un
         {
+            //本工具是Unicode编码转换，为您提供ASCII与Unicode互转
             public static string GetHtmlEntities(string str)
             {
                 string r = string.Empty;

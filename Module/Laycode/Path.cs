@@ -11,8 +11,7 @@ namespace CsharpLazycode.Module.Laycode.Path
         {
             var a = pathstr;
             a = a.Replace("/", @"\");
-            a = a.Replace(@"\\", @"\");
-
+            a = a.Replace(@"\\", @"\"); 
             return a;
         }
     }

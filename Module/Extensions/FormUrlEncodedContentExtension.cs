@@ -7,11 +7,11 @@ using System.Linq;
 using System.Text;
 
 namespace CsharpLazycode.Module.Extensions
-{  
+{
     public class FormUrlEncodedContentExtension
     {
 
- 
+
     }
 }
 
@@ -32,7 +32,7 @@ public static class ObjectExtensions
             object value = property.GetValue(source);
             if (IsOfType<T>(value))
             {
-               
+
                 dictionary.Add(property.Name, (T)value);
             }
         }

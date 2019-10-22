@@ -67,6 +67,12 @@ public static class IsWhatExtenions
     }
 
 
+    public static bool IsContainsInCaseSensitive(this string thisValue, params string[] inValues)
+    {
+        return inValues.Any(it => thisValue.ContainsCase(it));
+    }
+
+
     //自己添加扩展
     //文本中必须全部包含判断的元素
     public static bool allIncluded(this string thisValue, params string[] inValues)
@@ -74,6 +80,14 @@ public static class IsWhatExtenions
         for (int i = 0; i < inValues.Length; i++)
         {
             if (thisValue.IsContainsIn(inValues[i]) == false) { return false; }
+        }
+        return true;
+    }
+    public static bool allIncludedCaseSensitive(this string thisValue, params string[] inValues)
+    {
+        for (int i = 0; i < inValues.Length; i++)
+        {
+            if (thisValue.ContainsCase(inValues[i]) == false) { return false; }
         }
         return true;
     }

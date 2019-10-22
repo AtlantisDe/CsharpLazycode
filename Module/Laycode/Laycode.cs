@@ -240,10 +240,7 @@ namespace CsharpLazycode.Module.Laycode
             return Regex.Replace(inputValue, "[^0-9A-Za-z]", "");
         }
 
-        public static string FilterCharNotIncludeUnderline(string inputValue)
-        {
-            return Regex.Replace(inputValue, @"\W", "");
-        }
+
         /// <summary>
         /// 把特殊字符替换为空
         /// 当前特殊字符为:!"#$%&'()*+,-./:;<=>?@[\]^_`{|}~！＂＃＄％＆＇（）＊＋，－．／：；＜＝＞？＠［＼］＾＿｀｛｜｝～

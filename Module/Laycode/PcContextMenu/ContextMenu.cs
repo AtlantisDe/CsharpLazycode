@@ -4,12 +4,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace CsharpLazycode.Module.Laycode
+namespace CsharpLazycode.Module.PcContextMenu
 {
-    public class ContextMenu
-    {
-
-
+    public class Util
+    { 
         public static void AddFileContextMenuItem(string itemName, string associatedProgramFullPath)
         {
             //创建项：shell
@@ -18,7 +16,6 @@ namespace CsharpLazycode.Module.Laycode
             {
                 shellKey = Registry.ClassesRoot.CreateSubKey(@"*\shell");
             }
-
 
             //创建项：右键显示的菜单名称
             RegistryKey rightCommondKey = shellKey.CreateSubKey(itemName);
@@ -70,5 +67,6 @@ namespace CsharpLazycode.Module.Laycode
             var runcode = string.Format("\"{0}\" \"{1}\"", associatedProgramFullPath, "%1");
             AddFileContextMenuItem(itemName, runcode);
         }
+         
     }
 }

@@ -60,6 +60,14 @@ namespace CsharpLazycode.Module.Laycode.file
             }
             return "";
         }
-          
+
+        //自动识别文本
+        public static string autoaaa(string path)
+        {
+            var encoding = CsharpLazycode.Module.FileEncoding.Util.EncodingType.GetType("E:\\ak.txt");
+            return "";
+        }
+
+        
     }
 }

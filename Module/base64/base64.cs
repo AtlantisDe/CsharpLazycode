@@ -34,7 +34,24 @@ namespace CsharpLazycode.Module.base64
             return nobase64string;
         }
 
-        //base64字符串解密为字符串,本类型:解密-(加密base64替换的数据)
+        public static string base64ToString(string base64string, System.Text.Encoding encode = null)
+        {
+
+            var DeStr = "";
+            try
+            {
+                var abase64 = Convert.FromBase64String(base64string); 
+                if (encode == null) { encode = System.Text.Encoding.UTF8; }
+                DeStr = encode.GetString(abase64);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(string.Format("异常[{0}] [{1}]:{2}", System.Reflection.MethodBase.GetCurrentMethod().ReflectedType.FullName, System.Reflection.MethodBase.GetCurrentMethod().Name, ex.Message));
+            } 
+            return DeStr;
+        }
+
+        //字符串到Base64加密字符串
         public static string string2base64(string text, System.Text.Encoding encode = null)
         {
             //string  to  base64
