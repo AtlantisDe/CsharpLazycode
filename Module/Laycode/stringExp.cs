@@ -6,7 +6,7 @@ using System.Text.RegularExpressions;
 
 namespace CsharpLazycode.Module.Laycode
 {
-   public class stringExp
+   public class StringExp
     {
     }
 }

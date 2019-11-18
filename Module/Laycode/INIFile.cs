@@ -24,19 +24,19 @@ namespace CsharpLazycode.Module.Laycode
         }
 
         //与ini交互必须统一编码格式
-        private static byte[] getBytes(string s, string encodingName)
+        private static byte[] GetBytes(string s, string encodingName)
         {
             return null == s ? null : System.Text.Encoding.GetEncoding(encodingName).GetBytes(s);
         }
         public string ReadString(string section, string key, string def, string encodingName = "utf-8", int size = 1024)
         {
             byte[] buffer = new byte[size];
-            int count = GetPrivateProfileString(getBytes(section, encodingName), getBytes(key, encodingName), getBytes(def, encodingName), buffer, size, inipath);
+            int count = GetPrivateProfileString(GetBytes(section, encodingName), GetBytes(key, encodingName), GetBytes(def, encodingName), buffer, size, inipath);
             return System.Text.Encoding.GetEncoding(encodingName).GetString(buffer, 0, count).Trim();
         }
         public bool WriteString(string section, string key, string value, string encodingName = "utf-8")
         {
-            return WritePrivateProfileString(getBytes(section, encodingName), getBytes(key, encodingName), getBytes(value, encodingName), inipath);
+            return WritePrivateProfileString(GetBytes(section, encodingName), GetBytes(key, encodingName), GetBytes(value, encodingName), inipath);
         }
     }
     public class INIFileDefault
@@ -65,7 +65,7 @@ namespace CsharpLazycode.Module.Laycode
         public string IniReadValue(string section, string key)
         {
             StringBuilder temp = new StringBuilder(500);
-            int length = GetPrivateProfileString(section, key, "", temp, 500, inipath);
+            _ = GetPrivateProfileString(section, key, "", temp, 500, inipath);
             return temp.ToString();
         }
 

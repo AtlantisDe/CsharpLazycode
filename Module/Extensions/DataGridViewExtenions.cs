@@ -6,8 +6,7 @@ using System.Text;
 using System.Windows.Forms;
 
 namespace CsharpLazycode.Module.Extensions
-{
-
+{ 
 }
 
 

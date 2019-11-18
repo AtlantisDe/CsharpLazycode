@@ -8,7 +8,7 @@ namespace CsharpLazycode.Module.Laycode.List
 {
    public class MyList<T> : IEnumerator
     {
-        List<T> list = new List<T>();
+        readonly List<T> list = new List<T>();
         public object current = null;
         public object Current
         {

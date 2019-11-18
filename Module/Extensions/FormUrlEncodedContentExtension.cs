@@ -56,8 +56,7 @@ public static class ObjectExtensions
             return null;
         }
 
-        JToken token = metaToken as JToken;
-        if (token == null)
+        if (!(metaToken is JToken token))
         {
             return ToKeyValue(JObject.FromObject(metaToken));
         }

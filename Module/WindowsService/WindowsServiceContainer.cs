@@ -35,8 +35,8 @@ namespace CsharpLazycode.Module.WindowsService
         #endregion
 
         #region 私有成员
-        string[] _args;
-        WindowsService _service;
+        readonly string[] _args;
+        readonly WindowsService _service;
         string _serviceName;
         string _displayName;
         string _description;
@@ -102,13 +102,16 @@ namespace CsharpLazycode.Module.WindowsService
         {
             try
             {
-                ServiceController service = GetService();
-                if (service.Status != ServiceControllerStatus.Running &&
-                    service.Status != ServiceControllerStatus.StartPending)
+                using (ServiceController service = GetService())
                 {
-                    service.Start();
-                    service.WaitForStatus(ServiceControllerStatus.Running, new TimeSpan(0, 0, 5));
+                    if (service.Status != ServiceControllerStatus.Running &&
+                           service.Status != ServiceControllerStatus.StartPending)
+                    {
+                        service.Start();
+                        service.WaitForStatus(ServiceControllerStatus.Running, new TimeSpan(0, 0, 5));
+                    }
                 }
+
             }
             catch (Exception ex)
             {
@@ -120,11 +123,20 @@ namespace CsharpLazycode.Module.WindowsService
         }
         private void StopService()
         {
-            GetService().Stop();
+
+            using (var ServiceController = GetService())
+            {
+                ServiceController.Stop();
+            }
         }
         private void InstallService()
         {
-            GetInstaller().Install(new Hashtable());
+            using (var ServiceController = GetInstaller())
+            {
+                ServiceController.Install(new Hashtable());
+            }
+
+
         }
         private void UnInstallService()
         {
@@ -133,8 +145,19 @@ namespace CsharpLazycode.Module.WindowsService
                 ServiceControllerStatus status = ServiceStatus;
                 if (status != ServiceControllerStatus.StopPending && status != ServiceControllerStatus.Stopped)
                     StopService();
-                GetService().WaitForStatus(ServiceControllerStatus.Stopped, new TimeSpan(0, 0, 5));
-                GetInstaller().Uninstall(null);
+
+
+                using (var ServiceController = GetService())
+                {
+                    ServiceController.WaitForStatus(ServiceControllerStatus.Stopped, new TimeSpan(0, 0, 5));
+                }
+
+                using (var TransactedInstaller = GetInstaller())
+                {
+                    TransactedInstaller.Uninstall(null);
+                }
+                 
+               
             }
             catch (Exception ex)
             {
@@ -273,7 +296,7 @@ namespace CsharpLazycode.Module.WindowsService
         public static ServiceControllerStatus Servicestates(string _serviceName)
         {
 
-            return  ServiceController.GetServices().ToList().Find(x => x.ServiceName == _serviceName).Status ;
+            return ServiceController.GetServices().ToList().Find(x => x.ServiceName == _serviceName).Status;
         }
         public static string Servicestatesstring(string _serviceName)
         {

@@ -25,16 +25,16 @@ public static class ListExtensions
 
     public static T GetRandomOneElement<T>(this List<T> list)
     {
-        var cache = System.Runtime.Caching.MemoryCache.Default;
+ 
 
         try
         {
-            var RandomNumber = CsharpLazycode.Module.Laycode.random.Next(0, list.Count); 
+            var RandomNumber = CsharpLazycode.Module.Laycode.Random.Next(0, list.Count); 
             return (T)list[RandomNumber];
         }
         catch (Exception)
         {
-            return default(T);
+            return default;
         }
     }
    

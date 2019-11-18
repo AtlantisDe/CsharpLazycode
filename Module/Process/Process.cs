@@ -11,7 +11,7 @@ namespace CsharpLazycode.Module.Process
     {
         public static bool IsnotmoreProcess(string guid, bool showmsg = true)
         {
-            bool ret; System.Threading.Mutex mutex = new System.Threading.Mutex(true, guid, out ret);
+            System.Threading.Mutex mutex = new System.Threading.Mutex(true, guid, out bool ret);
             if (ret) { mutex.ReleaseMutex(); }
             else
             {
@@ -21,6 +21,8 @@ namespace CsharpLazycode.Module.Process
                 }
                 System.Diagnostics.Process.GetCurrentProcess().Kill();
             }
+            mutex.Dispose();
+
             return ret;
         }
 
@@ -54,7 +56,10 @@ namespace CsharpLazycode.Module.Process
                 //p.StandardInput.WriteLine(command);       //也可以用這種方式輸入要執行的命令    
                 //p.StandardInput.WriteLine("exit");        //不過要記得加上Exit要不然下一行程式執行的時候會當機    
 
-                return p.StandardOutput.ReadToEnd();        //從輸出流取得命令執行結果    
+                var rst = p.StandardOutput.ReadToEnd();        //從輸出流取得命令執行結果   
+                p.Dispose();
+
+                return rst;
             }
             catch (Exception ex)
             {
@@ -64,7 +69,7 @@ namespace CsharpLazycode.Module.Process
                 return string.Format("异常[{0}]", ex.Message);
 
             }
-            
+
 
         }
 
@@ -73,7 +78,7 @@ namespace CsharpLazycode.Module.Process
     {
 
         public class DiagnosticsProcess
-        { 
+        {
             public static System.Diagnostics.Process GetParentProcess(int iCurrentPid)
             {
                 int iParentPid = 0;
@@ -84,10 +89,11 @@ namespace CsharpLazycode.Module.Process
                 if (oHnd == IntPtr.Zero)
                     return null;
 
-                PROCESSENTRY32 oProcInfo = new PROCESSENTRY32();
-
-                oProcInfo.dwSize =
-                (uint)System.Runtime.InteropServices.Marshal.SizeOf(typeof(PROCESSENTRY32));
+                PROCESSENTRY32 oProcInfo = new PROCESSENTRY32
+                {
+                    dwSize =
+                (uint)System.Runtime.InteropServices.Marshal.SizeOf(typeof(PROCESSENTRY32))
+                };
 
                 if (Process32First(oHnd, ref oProcInfo) == false)
                     return null;
@@ -114,7 +120,7 @@ namespace CsharpLazycode.Module.Process
                     return null;
             }
 
-            static uint TH32CS_SNAPPROCESS = 2;
+            static readonly uint TH32CS_SNAPPROCESS = 2;
 
             [StructLayout(LayoutKind.Sequential)]
             public struct PROCESSENTRY32

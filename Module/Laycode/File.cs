@@ -10,7 +10,7 @@ namespace CsharpLazycode.Module.Laycode.file
     public class Util
     {
         //读取txt文件中总行数的方法
-        public static int requestMethod(String _fileName)
+        public static int RequestMethod(String _fileName)
         {
             Stopwatch sw = new Stopwatch();
             var path = _fileName;
@@ -46,7 +46,7 @@ namespace CsharpLazycode.Module.Laycode.file
         public static string TextfileGetRandoneLine(string path)
         {
             var lineCount = TextfileLineCount(path);
-            var rid = CsharpLazycode.Module.Laycode.random.Next(1, lineCount);
+            var rid = CsharpLazycode.Module.Laycode.Random.Next(1, lineCount);
 
             using (var reader = System.IO.File.OpenText(path))
             {
@@ -62,9 +62,9 @@ namespace CsharpLazycode.Module.Laycode.file
         }
 
         //自动识别文本
-        public static string autoaaa(string path)
+        public static string Autoaaa()
         {
-            var encoding = CsharpLazycode.Module.FileEncoding.Util.EncodingType.GetType("E:\\ak.txt");
+            _ = CsharpLazycode.Module.FileEncoding.Util.EncodingType.GetType("E:\\ak.txt");
             return "";
         }
 

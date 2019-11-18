@@ -31,11 +31,10 @@ public static class DynamicExtensions
         if (o == null) throw new ArgumentNullException("o");
         if (member == null) throw new ArgumentNullException("member");
         Type scope = o.GetType();
-        IDynamicMetaObjectProvider provider = o as IDynamicMetaObjectProvider;
-        if (provider != null)
+        if (o as IDynamicMetaObjectProvider != null)
         {
             ParameterExpression param = Expression.Parameter(typeof(object));
-            DynamicMetaObject mobj = provider.GetMetaObject(param);
+            DynamicMetaObject mobj = (o as IDynamicMetaObjectProvider).GetMetaObject(param);
             GetMemberBinder binder = (GetMemberBinder)Microsoft.CSharp.RuntimeBinder.Binder.GetMember(0, member, scope, new CSharpArgumentInfo[] { CSharpArgumentInfo.Create(0, null) });
             DynamicMetaObject ret = mobj.BindGetMember(binder);
             BlockExpression final = Expression.Block(
@@ -52,12 +51,12 @@ public static class DynamicExtensions
         }
     }
 
-    public static bool boolGet(dynamic dynamicOBJ, string propertyname)
+    public static bool BoolGet(dynamic dynamicOBJ, string propertyname)
     {
-         
+
         try
-        {  
-           var value = DynamicExtensions.GetProperty(dynamicOBJ, propertyname); 
+        {
+            var value = DynamicExtensions.GetProperty(dynamicOBJ, propertyname);
             return Convert.ToBoolean(value);
 
         }
@@ -72,7 +71,7 @@ public static class DynamicExtensions
 
 
     }
-    public static string stringGet(dynamic dynamicOBJ, string propertyname)
+    public static string StringGet(dynamic dynamicOBJ, string propertyname)
     {
 
         try
@@ -95,6 +94,60 @@ public static class DynamicExtensions
         {
         }
         return "";
+
+
+    }
+
+    public static int IntGet(dynamic dynamicOBJ, string propertyname)
+    {
+
+        try
+        {
+            var value = DynamicExtensions.GetProperty(dynamicOBJ, propertyname);
+            if (value == null)
+            {
+                return 0;
+
+            }
+
+            return (int)value;
+
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(string.Format("异常[{0}]:{1}", System.Reflection.MethodBase.GetCurrentMethod().ReflectedType.FullName, ex.Message));
+        }
+        finally
+        {
+        }
+        return 0;
+
+
+    }
+
+
+    public static DateTime DateTimeGet(dynamic dynamicOBJ, string propertyname)
+    {
+        try
+        {
+            var value = DynamicExtensions.GetProperty(dynamicOBJ, propertyname);
+            if (value == null)
+            {
+                return default;
+
+            }
+
+            return (DateTime)value;
+
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(string.Format("异常[{0}]:{1}", System.Reflection.MethodBase.GetCurrentMethod().ReflectedType.FullName, ex.Message));
+        }
+        finally
+        {
+        }
+        return default;
 
 
     }

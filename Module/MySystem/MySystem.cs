@@ -11,6 +11,7 @@ using System.Management;
 using System.Runtime.InteropServices;
 using System.Diagnostics;
 using System.Threading;
+using System.Management.Automation;
 
 namespace CsharpLazycode.Module.MySystem
 {
@@ -30,7 +31,7 @@ namespace CsharpLazycode.Module.MySystem
         [DllImport("Iphlpapi.dll")]
         public static extern int SendARP(Int32 DestIP, Int32 SrcIP, ref Int64 MacAddr, ref Int32 PhyAddrLen);
         [DllImport("Ws2_32.dll")]
-        public static extern Int32 inet_addr(string ipaddr);
+        public static extern Int32 Inet_addr(string ipaddr);
         //内存信息结构体
         [StructLayout(LayoutKind.Sequential)]
         public struct StorageInfo //此处全是以字节为单位
@@ -73,27 +74,27 @@ namespace CsharpLazycode.Module.MySystem
             public ushort wMilliseconds;
         }
         #endregion
-        public static bool debug()
+        public static bool Debug()
         {
-            System.Console.WriteLine("内存利用率:" + get_utilization_rate());
-            System.Console.WriteLine("系统路径:" + get_system_path());
-            System.Console.WriteLine("window路径:" + get_window_path());
-            System.Console.WriteLine("cpu的id号:" + get_CPUID());
-            System.Console.WriteLine("获取cpu使用率:" + getCPUCounter());
+            System.Console.WriteLine("内存利用率:" + Get_utilization_rate());
+            System.Console.WriteLine("系统路径:" + Get_system_path());
+            System.Console.WriteLine("window路径:" + Get_window_path());
+            System.Console.WriteLine("cpu的id号:" + Get_CPUID());
+            System.Console.WriteLine("获取cpu使用率:" + GetCPUCounter());
 
 
-            System.Console.WriteLine("设备硬件卷号:" + get_Disk_VolumeSerialNumber());
-            System.Console.WriteLine("本机MAC地址:" + get_mac_address());
-            System.Console.WriteLine("邻节点MAC地址:" + get_remote_mac("192.168.100.179"));
-            System.Console.WriteLine("本机的ip地址:" + get_ip());
-            System.Console.WriteLine("硬盘id号:" + get_disk_id());
-            System.Console.WriteLine("登陆用户名:" + get_user());
-            System.Console.WriteLine("系统类型:" + get_SystemType());
-            System.Console.WriteLine("物理总内存:" + get_TotalPhysicalMemory());
-            System.Console.WriteLine("物理总内存换算:" + CsharpLazycode.Module.HardDisk.size.Util.GetString(Convert.ToInt64(get_TotalPhysicalMemory())));
+            System.Console.WriteLine("设备硬件卷号:" + Get_Disk_VolumeSerialNumber());
+            System.Console.WriteLine("本机MAC地址:" + Get_mac_address());
+            System.Console.WriteLine("邻节点MAC地址:" + Get_remote_mac("192.168.100.179"));
+            System.Console.WriteLine("本机的ip地址:" + Get_ip());
+            System.Console.WriteLine("硬盘id号:" + Get_disk_id());
+            System.Console.WriteLine("登陆用户名:" + Get_user());
+            System.Console.WriteLine("系统类型:" + Get_SystemType());
+            System.Console.WriteLine("物理总内存:" + Get_TotalPhysicalMemory());
+            System.Console.WriteLine("物理总内存换算:" + CsharpLazycode.Module.HardDisk.size.Util.GetString(Convert.ToInt64(Get_TotalPhysicalMemory())));
 
-            System.Console.WriteLine("电脑名称:" + get_ComputerName());
-            System.Console.WriteLine("os版本信息:" + get_OSVersion());
+            System.Console.WriteLine("电脑名称:" + Get_ComputerName());
+            System.Console.WriteLine("os版本信息:" + Get_OSVersion());
 
 
             return true;
@@ -105,14 +106,20 @@ namespace CsharpLazycode.Module.MySystem
 
             try
             {
-                memoryInfo.totalSize = Convert.ToUInt64(get_TotalPhysicalMemory());
-                memoryInfo.totalSizestr = CsharpLazycode.Module.HardDisk.size.Util.GetString(Convert.ToInt64(memoryInfo.totalSize));
-                memoryInfo.Percent = (Convert.ToDecimal(get_utilization_rate())).ToString("0.00") + "%";
+                memoryInfo.TotalSize = Convert.ToUInt64(Get_TotalPhysicalMemory());
+
+                //memoryInfo.totalSizestr = CsharpLazycode.Module.HardDisk.size.Util.GetString(Convert.ToInt64(memoryInfo.totalSize));
+
+                memoryInfo.TotalSizestr = Get_PhysicalMemoryStrGBvalue() + " GB";
+
+                memoryInfo.Percent = (Convert.ToDecimal(Get_utilization_rate())).ToString("0.00") + "%";
+
+
             }
             catch (Exception ex)
             {
-                memoryInfo.totalSize = 0;
-                memoryInfo.totalSizestr = "异常";
+                memoryInfo.TotalSize = 0;
+                memoryInfo.TotalSizestr = "异常";
                 memoryInfo.Percent = "异常" + "%";
 
                 var exErr = string.Format("异常[{0}]:{1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.Message);
@@ -125,9 +132,9 @@ namespace CsharpLazycode.Module.MySystem
 
         public class MemoryInfo
         {
-            public ulong totalSize { get; set; }
+            public ulong TotalSize { get; set; }
 
-            public string totalSizestr { get; set; }
+            public string TotalSizestr { get; set; }
 
             public string Percent { get; set; }
 
@@ -142,51 +149,38 @@ namespace CsharpLazycode.Module.MySystem
 
             try
             {
-                cpuInfo.total = 1;
-                cpuInfo.Percent = (Convert.ToDecimal(getCPUCounter())).ToString("0.00") + "%";
+                cpuInfo.Total = 1;
+                cpuInfo.Percent = (Convert.ToDecimal(GetCPUCounter())).ToString("0.00") + "%";
             }
             catch (Exception ex)
             {
-                cpuInfo.total = 1;
-                cpuInfo.Percent = "异常" + "%"; 
+                cpuInfo.Total = 1;
+                cpuInfo.Percent = "异常" + "%";
 
                 var exErr = string.Format("异常[{0}]:{1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.Message);
                 Console.WriteLine(exErr);
-            } 
+            }
 
             return cpuInfo;
         }
 
         public class CpuInfo
         {
-            public int total { get; set; }
+            public int Total { get; set; }
 
             public string Percent { get; set; }
 
         }
-        [Obsolete]
-        public static string CurrentCPUusage
-        {
-            get
-            {
-                PerformanceCounter cpuCounter;
-                cpuCounter = new PerformanceCounter();
-                cpuCounter.CategoryName = "Processor";
-                cpuCounter.CounterName = "% Processor Time";
-                cpuCounter.InstanceName = "_Total";
-                return cpuCounter.NextValue() + "%";
-            }
-        }
 
         //获取内存信息
-        public static StorageInfo get_StorageInfo()
+        public static StorageInfo Get_StorageInfo()
         {
             StorageInfo memInfor = new StorageInfo();
             GlobalMemoryStatus(ref memInfor);
             return memInfor;
         }
         //获取cpu信息
-        public static CPUInfo get_CPUInfo()
+        public static CPUInfo Get_CPUInfo()
         {
             CPUInfo memInfor = new CPUInfo();
             GetSystemInfo(ref memInfor);
@@ -194,39 +188,57 @@ namespace CsharpLazycode.Module.MySystem
         }
 
         //获取cpu使用率
-        public static object getCPUCounter()
+        public static object GetCPUCounter()
         {
 
-            PerformanceCounter cpuCounter = new PerformanceCounter();
-            cpuCounter.CategoryName = "Processor";
-            cpuCounter.CounterName = "% Processor Time";
-            cpuCounter.InstanceName = "_Total";
+            //PerformanceCounter cpuCounter = new PerformanceCounter
+            //{
+            //    CategoryName = "Processor",
+            //    CounterName = "% Processor Time",
+            //    InstanceName = "_Total"
+            //};
 
-            // will always start at 0
-            dynamic firstValue = cpuCounter.NextValue();
-            System.Threading.Thread.Sleep(1000);
-            // now matches task manager reading
-            dynamic secondValue = cpuCounter.NextValue();
+            //// will always start at 0
+            ////dynamic firstValue = cpuCounter.NextValue();
+            //System.Threading.Thread.Sleep(1000);
+            //// now matches task manager reading
+            //dynamic secondValue = cpuCounter.NextValue();
 
-            return secondValue;
+
+
+            using (PowerShell ps = PowerShell.Create())
+            {
+                ps.AddCommand("Get-WmiObject").AddArgument("win32_processor");
+                IAsyncResult async = ps.BeginInvoke();
+                foreach (PSObject result in ps.EndInvoke(async))
+                {
+                    var LoadPercentage = result.Members["LoadPercentage"].Value;
+                    return LoadPercentage;
+
+                    //Console.WriteLine(result);
+                }
+            }
+
+            return 0;
+            //return secondValue;
 
         }
         //获取系统时间信息
-        public static SystemTimeInfo get_SystemTimeInfo()
+        public static SystemTimeInfo Get_SystemTimeInfo()
         {
             SystemTimeInfo memInfor = new SystemTimeInfo();
             GetSystemTime(ref memInfor);
             return memInfor;
         }
         //获取内存利用率函数
-        public static string get_utilization_rate()
+        public static string Get_utilization_rate()
         {
             StorageInfo memInfor = new StorageInfo();
             GlobalMemoryStatus(ref memInfor);
             return memInfor.dwMemoryLoad.ToString("0.0");
         }
         //获取系统路径
-        public static string get_system_path()
+        public static string Get_system_path()
         {
             const int nChars = 128;
             StringBuilder Buff = new StringBuilder(nChars);
@@ -234,7 +246,7 @@ namespace CsharpLazycode.Module.MySystem
             return Buff.ToString();
         }
         //获取window路径
-        public static string get_window_path()
+        public static string Get_window_path()
         {
             const int nChars = 128;
             StringBuilder Buff = new StringBuilder(nChars);
@@ -243,20 +255,24 @@ namespace CsharpLazycode.Module.MySystem
         }
 
         //获取cpu的id号
-        public static string get_CPUID()
+        public static string Get_CPUID()
         {
             try
             {
                 string cpuInfo = "";//cpu序列号 
-                ManagementClass mc = new ManagementClass("Win32_Processor");
-                ManagementObjectCollection moc = mc.GetInstances();
-                foreach (ManagementObject mo in moc)
+
+                using (ManagementClass mc = new ManagementClass("Win32_Processor"))
                 {
-                    cpuInfo = mo.Properties["ProcessorId"].Value.ToString();
+                    ManagementObjectCollection moc = mc.GetInstances();
+                    foreach (ManagementObject mo in moc)
+                    {
+                        cpuInfo = mo.Properties["ProcessorId"].Value.ToString();
+                    }
+
+                    return cpuInfo;
                 }
-                moc = null;
-                mc = null;
-                return cpuInfo;
+
+
             }
             catch
             {
@@ -264,36 +280,46 @@ namespace CsharpLazycode.Module.MySystem
             }
         }
         //获取设备硬件卷号
-        public static string get_Disk_VolumeSerialNumber()
+        public static string Get_Disk_VolumeSerialNumber()
         {
-            ManagementClass mc = new ManagementClass("Win32_NetworkAdapterConfiguration");
-            ManagementObject disk = new ManagementObject("win32_logicaldisk.deviceid=\"d:\"");
-            disk.Get();
-            return disk.GetPropertyValue("VolumeSerialNumber").ToString();
+            //ManagementClass mc = new ManagementClass("Win32_NetworkAdapterConfiguration");
+
+            using (ManagementObject disk = new ManagementObject("win32_logicaldisk.deviceid=\"d:\""))
+            {
+                disk.Get();
+                return disk.GetPropertyValue("VolumeSerialNumber").ToString();
+            }
+
         }
         //获取mac地址
-        public static string get_mac_address()
+        public static string Get_mac_address()
         {
             string mac = "";
-            ManagementClass mc = new ManagementClass("Win32_NetworkAdapterConfiguration");
-            ManagementObjectCollection moc = mc.GetInstances();
-            foreach (ManagementObject mo in moc)
+
+            using (ManagementClass mc = new ManagementClass("Win32_NetworkAdapterConfiguration"))
             {
-                if ((bool)mo["IPEnabled"] == true)
+                ManagementObjectCollection moc = mc.GetInstances();
+                foreach (ManagementObject mo in moc)
                 {
-                    mac = mo["MacAddress"].ToString();
+                    if ((bool)mo["IPEnabled"] == true)
+                    {
+                        mac = mo["MacAddress"].ToString();
+                    }
+                    mo.Dispose();
                 }
-                mo.Dispose();
+                return mac;
             }
-            return mac;
+
+
+
         }
         //根据ip获取邻节点MAC地址
-        public static string get_remote_mac(string ip)
+        public static string Get_remote_mac(string ip)
         {
             StringBuilder mac = new StringBuilder();
             try
             {
-                Int32 remote = inet_addr(ip);
+                Int32 remote = Inet_addr(ip);
                 Int64 macinfo = new Int64();
                 Int32 length = 6;
                 SendARP(remote, 0, ref macinfo, ref length);
@@ -315,27 +341,33 @@ namespace CsharpLazycode.Module.MySystem
             }
         }
         //获取本机的ip地址
-        public static string get_ip()
+        public static string Get_ip()
         {
             try
             {
                 string st = "";
-                ManagementClass mc = new ManagementClass("Win32_NetworkAdapterConfiguration");
-                ManagementObjectCollection moc = mc.GetInstances();
-                foreach (ManagementObject mo in moc)
+
+
+                using (ManagementClass mc = new ManagementClass("Win32_NetworkAdapterConfiguration"))
                 {
-                    if ((bool)mo["IPEnabled"] == true)
+                    ManagementObjectCollection moc = mc.GetInstances();
+                    foreach (ManagementObject mo in moc)
                     {
-                        //st=mo["IpAddress"].ToString(); 
-                        System.Array ar;
-                        ar = (System.Array)(mo.Properties["IpAddress"].Value);
-                        st = ar.GetValue(0).ToString();
-                        break;
+                        if ((bool)mo["IPEnabled"] == true)
+                        {
+                            //st=mo["IpAddress"].ToString(); 
+                            System.Array ar;
+                            ar = (System.Array)(mo.Properties["IpAddress"].Value);
+                            st = ar.GetValue(0).ToString();
+                            break;
+                        }
                     }
+
+                    return st;
                 }
-                moc = null;
-                mc = null;
-                return st;
+
+
+
             }
             catch
             {
@@ -343,20 +375,22 @@ namespace CsharpLazycode.Module.MySystem
             }
         }
         //获取硬盘id号
-        public static string get_disk_id()
+        public static string Get_disk_id()
         {
             try
             {
                 String HDid = "";
-                ManagementClass mc = new ManagementClass("Win32_DiskDrive");
-                ManagementObjectCollection moc = mc.GetInstances();
-                foreach (ManagementObject mo in moc)
+
+                using (ManagementClass mc = new ManagementClass("Win32_DiskDrive"))
                 {
-                    HDid = (string)mo.Properties["Model"].Value;
-                }
-                moc = null;
-                mc = null;
-                return HDid;
+                    ManagementObjectCollection moc = mc.GetInstances();
+                    foreach (ManagementObject mo in moc)
+                    {
+                        HDid = (string)mo.Properties["Model"].Value;
+                    }
+
+                    return HDid;
+                } 
             }
             catch
             {
@@ -364,20 +398,23 @@ namespace CsharpLazycode.Module.MySystem
             }
         }
         //获得系统登陆用户名
-        public static string get_user()
+        public static string Get_user()
         {
             try
             {
                 string st = "";
-                ManagementClass mc = new ManagementClass("Win32_ComputerSystem");
-                ManagementObjectCollection moc = mc.GetInstances();
-                foreach (ManagementObject mo in moc)
+                using (ManagementClass mc = new ManagementClass("Win32_ComputerSystem"))
                 {
-                    st = mo["UserName"].ToString();
+                    ManagementObjectCollection moc = mc.GetInstances();
+                    foreach (ManagementObject mo in moc)
+                    {
+                        st = mo["UserName"].ToString();
+                    }
+                    moc.Dispose();
+                    mc.Dispose();
+                    return st;
                 }
-                moc = null;
-                mc = null;
-                return st;
+
             }
             catch
             {
@@ -385,20 +422,24 @@ namespace CsharpLazycode.Module.MySystem
             }
         }
         //获得系统类型
-        public static string get_SystemType()
+        public static string Get_SystemType()
         {
             try
             {
                 string st = "";
-                ManagementClass mc = new ManagementClass("Win32_ComputerSystem");
-                ManagementObjectCollection moc = mc.GetInstances();
-                foreach (ManagementObject mo in moc)
+
+                using (ManagementClass mc = new ManagementClass("Win32_ComputerSystem"))
                 {
-                    st = mo["SystemType"].ToString();
+                    ManagementObjectCollection moc = mc.GetInstances();
+                    foreach (ManagementObject mo in moc)
+                    {
+                        st = mo["SystemType"].ToString();
+                    }
+                    return st;
                 }
-                moc = null;
-                mc = null;
-                return st;
+
+
+
             }
             catch
             {
@@ -406,28 +447,57 @@ namespace CsharpLazycode.Module.MySystem
             }
         }
         //获得物理总内存
-        public static string get_TotalPhysicalMemory()
+        public static string Get_TotalPhysicalMemory()
         {
             try
             {
                 string st = "";
-                ManagementClass mc = new ManagementClass("Win32_ComputerSystem");
-                ManagementObjectCollection moc = mc.GetInstances();
-                foreach (ManagementObject mo in moc)
+
+                using (ManagementClass mc = new ManagementClass("Win32_ComputerSystem"))
                 {
-                    st = mo["TotalPhysicalMemory"].ToString();
+                    ManagementObjectCollection moc = mc.GetInstances();
+                    foreach (ManagementObject mo in moc)
+                    {
+                        st = mo["TotalPhysicalMemory"].ToString();
+                    }
                 }
-                moc = null;
-                mc = null;
                 return st;
             }
             catch
             {
                 return "unknow";
             }
+
         }
+        //获得物理总内存 单位GB
+        public static string Get_PhysicalMemoryStrGBvalue()
+        {
+            try
+            {
+                //Memory
+                using (PowerShell ps = PowerShell.Create())
+                {
+                    ps.AddScript("(Get-CimInstance Win32_PhysicalMemory | Measure-Object -Property capacity -Sum).sum /1gb");
+                    IAsyncResult async = ps.BeginInvoke();
+                    foreach (PSObject result in ps.EndInvoke(async))
+                    {
+                        var str = result.ToString();
+                        return str;
+                    }
+                }
+
+                return "0";
+            }
+            catch
+            {
+                return "0";
+            }
+
+        }
+
+
         //获得电脑名称
-        public static string get_ComputerName()
+        public static string Get_ComputerName()
         {
             try
             {
@@ -444,18 +514,22 @@ namespace CsharpLazycode.Module.MySystem
             PerformanceCounter pc = new PerformanceCounter(CategoryName, CounterName);
             Thread.Sleep(500);
             float xingneng = pc.NextValue();
+            pc.Dispose();
             return xingneng;
         }
 
         public static float 性能显示状况3(string CategoryName, string CounterName, string InstanceName)
         {
-            PerformanceCounter pc = new PerformanceCounter(CategoryName, CounterName, InstanceName);
-            Thread.Sleep(500); // wait for 1 second 
-            float xingneng = pc.NextValue();
-            return xingneng;
+            using (PerformanceCounter pc = new PerformanceCounter(CategoryName, CounterName, InstanceName))
+            {
+                Thread.Sleep(500); // wait for 1 second 
+                float xingneng = pc.NextValue();
+                return xingneng;
+            }
+
         }
         //获取os版本信息
-        public static string get_OSVersion()
+        public static string Get_OSVersion()
         {
             System.OperatingSystem version = System.Environment.OSVersion;
             switch (version.Platform)

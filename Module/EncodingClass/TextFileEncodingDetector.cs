@@ -83,8 +83,7 @@ OF SUCH DAMAGE.
 
         public static Encoding DetectTextFileEncoding(FileStream InputFileStream, long HeuristicSampleSize)
         {
-            bool uselessBool = false;
-            return DetectTextFileEncoding(InputFileStream, _defaultHeuristicSampleSize, out uselessBool);
+            return DetectTextFileEncoding(InputFileStream, _defaultHeuristicSampleSize, out _);
         }
 
         public static Encoding DetectTextFileEncoding(FileStream InputFileStream, long HeuristicSampleSize, out bool HasBOM)
@@ -97,9 +96,6 @@ OF SUCH DAMAGE.
 
             if (!InputFileStream.CanSeek)
                 throw new ArgumentException("Provided file stream cannot seek!", "InputFileStream");
-
-            Encoding encodingFound = null;
-
             long originalPos = InputFileStream.Position;
 
             InputFileStream.Position = 0;
@@ -109,8 +105,7 @@ OF SUCH DAMAGE.
             byte[] bomBytes = new byte[InputFileStream.Length > 4 ? 4 : InputFileStream.Length];
             InputFileStream.Read(bomBytes, 0, bomBytes.Length);
 
-            encodingFound = DetectBOMBytes(bomBytes);
-
+            Encoding encodingFound = DetectBOMBytes(bomBytes);
             if (encodingFound != null)
             {
                 InputFileStream.Position = originalPos;
@@ -136,19 +131,14 @@ OF SUCH DAMAGE.
 
         public static Encoding DetectTextByteArrayEncoding(byte[] TextData)
         {
-            bool uselessBool = false;
-            return DetectTextByteArrayEncoding(TextData, out uselessBool);
+            return DetectTextByteArrayEncoding(TextData, out _);
         }
 
         public static Encoding DetectTextByteArrayEncoding(byte[] TextData, out bool HasBOM)
         {
             if (TextData == null)
                 throw new ArgumentNullException("Must provide a valid text data byte array!", "TextData");
-
-            Encoding encodingFound = null;
-
-            encodingFound = DetectBOMBytes(TextData);
-
+            Encoding encodingFound = DetectBOMBytes(TextData);
             if (encodingFound != null)
             {
                 HasBOM = true;
@@ -173,11 +163,7 @@ OF SUCH DAMAGE.
         {
             if (TextData == null)
                 throw new ArgumentNullException("Must provide a valid text data byte array!", "TextData");
-
-            Encoding encodingFound = null;
-
-            encodingFound = DetectBOMBytes(TextData);
-
+            Encoding encodingFound = DetectBOMBytes(TextData);
             if (encodingFound != null)
             {
                 //For some reason, the default encodings don't detect/swallow their own preambles!!
@@ -185,7 +171,7 @@ OF SUCH DAMAGE.
             }
             else
             {
-                byte[] heuristicSample = null;
+                byte[] heuristicSample;
                 if (TextData.Length > MaxHeuristicSampleSize)
                 {
                     heuristicSample = new byte[MaxHeuristicSampleSize];
@@ -193,7 +179,6 @@ OF SUCH DAMAGE.
                 }
                 else
                 {
-                    heuristicSample = TextData;
                 }
 
                 encodingFound = DetectUnicodeInByteSampleByHeuristics(TextData) ?? DefaultEncoding;

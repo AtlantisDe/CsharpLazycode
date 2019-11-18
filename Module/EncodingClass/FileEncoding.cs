@@ -32,14 +32,13 @@ namespace CsharpLazycode.Module.FileEncoding
             /// <returns>文件的编码类型</returns> 
             public static System.Text.Encoding GetType(FileStream fs)
             {
-                byte[] Unicode = new byte[] { 0xFF, 0xFE, 0x41 };
-                byte[] UnicodeBIG = new byte[] { 0xFE, 0xFF, 0x00 };
-                byte[] UTF8 = new byte[] { 0xEF, 0xBB, 0xBF }; //带BOM 
+                //byte[] Unicode = new byte[] { 0xFF, 0xFE, 0x41 };
+                //byte[] UnicodeBIG = new byte[] { 0xFE, 0xFF, 0x00 };
+                //byte[] UTF8 = new byte[] { 0xEF, 0xBB, 0xBF }; //带BOM 
                 System.Text.Encoding reVal = System.Text.Encoding.Default;
 
                 BinaryReader r = new BinaryReader(fs, System.Text.Encoding.Default);
-                int i;
-                int.TryParse(fs.Length.ToString(), out i);
+                int.TryParse(fs.Length.ToString(), out int i);
                 byte[] ss = r.ReadBytes(i);
                 if (IsUTF8Bytes(ss) || (ss[0] == 0xEF && ss[1] == 0xBB && ss[2] == 0xBF))
                 {
@@ -111,14 +110,13 @@ namespace CsharpLazycode.Module.FileEncoding
             /// <returns>文件的编码类型</returns> 
             public static System.Text.Encoding GetType(Stream fs)
             {
-                byte[] Unicode = new byte[] { 0xFF, 0xFE, 0x41 };
-                byte[] UnicodeBIG = new byte[] { 0xFE, 0xFF, 0x00 };
-                byte[] UTF8 = new byte[] { 0xEF, 0xBB, 0xBF }; //带BOM 
+                //byte[] Unicode = new byte[] { 0xFF, 0xFE, 0x41 };
+                //byte[] UnicodeBIG = new byte[] { 0xFE, 0xFF, 0x00 };
+                //byte[] UTF8 = new byte[] { 0xEF, 0xBB, 0xBF }; //带BOM 
                 System.Text.Encoding reVal = System.Text.Encoding.Default;
 
                 BinaryReader r = new BinaryReader(fs, System.Text.Encoding.Default);
-                int i;
-                int.TryParse(fs.Length.ToString(), out i);
+                int.TryParse(fs.Length.ToString(), out int i);
                 byte[] ss = r.ReadBytes(i);
                 if (IsUTF8Bytes(ss) || (ss[0] == 0xEF && ss[1] == 0xBB && ss[2] == 0xBF))
                 {

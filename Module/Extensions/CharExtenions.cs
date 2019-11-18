@@ -13,15 +13,15 @@ public static class CharExtenions
 {
     public static char GetRandomOneElement(this char[] list)
     {
-        var cache = System.Runtime.Caching.MemoryCache.Default;
+       
         try
         {
-            var RandomNumber = CsharpLazycode.Module.Laycode.random.Next(0, list.Length);
+            var RandomNumber = CsharpLazycode.Module.Laycode.Random.Next(0, list.Length);
             return list[RandomNumber];
         }
         catch (Exception)
         {
-            return default(char);
+            return default;
         }
     }
 

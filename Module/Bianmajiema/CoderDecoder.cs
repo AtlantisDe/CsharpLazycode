@@ -53,8 +53,7 @@ namespace CsharpLazycode.Module.Laycode
                 int len = srcText.Length / 6;
                 for (int i = 0; i <= len - 1; i++)
                 {
-                    string str = "";
-                    str = src.Substring(0, 6).Substring(2);
+                    string str = src.Substring(0, 6).Substring(2);
                     src = src.Substring(6);
                     byte[] bytes = new byte[2];
                     bytes[1] = byte.Parse(int.Parse(str.Substring(0, 2), System.Globalization.NumberStyles.HexNumber).ToString());

@@ -9,7 +9,7 @@ namespace CsharpLazycode.Module.MessageDigestAlgorithm
     public class Util
     {
 
-        public static bool debgug()
+        public static bool Debgug()
         {
             string source = "Hello World!";
             //source = "本站针对md5、sha1等全球通用公开的加密算法进行反向查询，通过穷举字符组合的方式，创建了明文密文对应查询数据库，创建的记录约90万亿条，占用硬盘超过500TB，查询成功率95%以上，很多复杂密文只有本站才可查询。已稳定运行十余年，国";
@@ -75,7 +75,7 @@ namespace CsharpLazycode.Module.MessageDigestAlgorithm
             }
         }
 
-        public static string md5(string source)
+        public static string Md5(string source)
         {
             using (MD5 md5Hash = MD5.Create())
             {

@@ -27,7 +27,7 @@ namespace CsharpLazycode.Module.IO
         public static string StreamTostringEncodingDetector(Stream stream)
         {
             var bytebody = CsharpLazycode.Module.IO.Util.StreamToBytes(stream);
-            var retString = "";
+            string retString;
             if ((retString = System.Text.Encoding.UTF8.GetString(bytebody)).Contains("��") == false)
             {
                 return retString;

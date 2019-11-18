@@ -7,20 +7,20 @@ namespace LogsDataGridView
 
     public class Entity
     {
-        public class logitem
+        public class Logitem
         {
-            public logitem()
+            public Logitem()
             {
-                time = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss:ffff");
+                Time = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss:ffff");
             }
 
-            public string time { get; set; }
-            public string message { get; set; }
+            public string Time { get; set; }
+            public string Message { get; set; }
 
         }
-        public class logUIitem
+        public class LogUIitem
         {
-            public DataGridView dataGridView { get; set; }
+            public DataGridView DataGridView { get; set; }
             public int LimitDisplay { get; set; }
             public System.Windows.Forms.ContainerControl Control { get; set; }
 
@@ -53,11 +53,11 @@ namespace LogsDataGridView
 
     public class DgvLog
     {
-        public LogsDataGridView.Entity.logUIitem Root = new Entity.logUIitem();
+        public LogsDataGridView.Entity.LogUIitem Root = new Entity.LogUIitem();
 
         public DgvLog(DataGridView dataGridView, UserControl Control)
         {
-            Root.dataGridView = dataGridView;
+            Root.DataGridView = dataGridView;
             Root.Control = Control;
 
             ColumnsInit();
@@ -65,13 +65,13 @@ namespace LogsDataGridView
 
         public bool ColumnsInit()
         {
-            Root.dataGridView.Columns.Add(new DataGridViewTextBoxColumn() { Name = "obj", HeaderText = "对象", Width = 0 });
-            Root.dataGridView.Columns.Add(new DataGridViewTextBoxColumn() { Name = "logid", HeaderText = "日志编号", Width = 80 });
-            Root.dataGridView.Columns.Add(new DataGridViewTextBoxColumn() { Name = "time", HeaderText = "时间", Width = 160 });
-            Root.dataGridView.Columns.Add(new DataGridViewTextBoxColumn() { Name = "message", HeaderText = "日志内容", Width = 800 });
-            Root.dataGridView.Columns[0].Visible = false;
-            Root.dataGridView.AllowUserToAddRows = false;
-            Root.dataGridView.BackgroundColor = Color.White;
+            Root.DataGridView.Columns.Add(new DataGridViewTextBoxColumn() { Name = "obj", HeaderText = "对象", Width = 0 });
+            Root.DataGridView.Columns.Add(new DataGridViewTextBoxColumn() { Name = "logid", HeaderText = "日志编号", Width = 80 });
+            Root.DataGridView.Columns.Add(new DataGridViewTextBoxColumn() { Name = "time", HeaderText = "时间", Width = 160 });
+            Root.DataGridView.Columns.Add(new DataGridViewTextBoxColumn() { Name = "message", HeaderText = "日志内容", Width = 800 });
+            Root.DataGridView.Columns[0].Visible = false;
+            Root.DataGridView.AllowUserToAddRows = false;
+            Root.DataGridView.BackgroundColor = Color.White;
 
             return true;
 
@@ -85,9 +85,9 @@ namespace LogsDataGridView
             {
                 Application.DoEvents();
 
-                if (Root.dataGridView.Rows.Count >= Root.LimitDisplay)
+                if (Root.DataGridView.Rows.Count >= Root.LimitDisplay)
                 {
-                    Root.dataGridView.Rows.Clear();
+                    Root.DataGridView.Rows.Clear();
                 }
             });
 
@@ -95,14 +95,14 @@ namespace LogsDataGridView
 
         }
 
-        public bool Insert(LogsDataGridView.Entity.logitem logitem)
+        public bool Insert(LogsDataGridView.Entity.Logitem logitem)
         {
 
             Root.Control.Invoke((EventHandler)delegate
             {
                 Application.DoEvents();
 
-                Root.dataGridView.Rows.Insert(0, logitem, (Root.dataGridView.Rows.Count + 1).ToString("D5"), logitem.time, logitem.message);
+                Root.DataGridView.Rows.Insert(0, logitem, (Root.DataGridView.Rows.Count + 1).ToString("D5"), logitem.Time, logitem.Message);
             });
 
             return true;

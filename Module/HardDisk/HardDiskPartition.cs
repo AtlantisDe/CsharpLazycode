@@ -76,7 +76,7 @@ namespace CsharpLazycode.Module.HardDiskPartition
 
 
 
-        public static bool debug()
+        public static bool Debug()
         {
 
             try
@@ -125,27 +125,30 @@ namespace CsharpLazycode.Module.HardDiskPartition
             {
                 SelectQuery selectQuery = new SelectQuery("select * from win32_logicaldisk");
 
-                ManagementObjectSearcher searcher = new ManagementObjectSearcher(selectQuery);
-
-                ManagementObjectCollection diskcollection = searcher.Get();
-                if (diskcollection != null && diskcollection.Count > 0)
+                using (ManagementObjectSearcher searcher = new ManagementObjectSearcher(selectQuery))
                 {
-                    list = new List<HardDiskPartition>();
-                    HardDiskPartition harddisk = null;
-                    foreach (ManagementObject disk in searcher.Get())
+                    ManagementObjectCollection diskcollection = searcher.Get();
+                    if (diskcollection != null && diskcollection.Count > 0)
                     {
-                        int nType = Convert.ToInt32(disk["DriveType"]);
-                        if (nType != Convert.ToInt32(DriveType.Fixed))
+                        list = new List<HardDiskPartition>();
+                        HardDiskPartition harddisk = null;
+                        foreach (ManagementObject disk in searcher.Get())
                         {
-                            continue;
-                        }
-                        else
-                        {
-                            harddisk = new HardDiskPartition();
-                            harddisk.FreeSpace = Convert.ToDouble(disk["FreeSpace"]) / (1024 * 1024 * 1024);
-                            harddisk.SumSpace = Convert.ToDouble(disk["Size"]) / (1024 * 1024 * 1024);
-                            harddisk.PartitionName = disk["DeviceID"].ToString();
-                            list.Add(harddisk);
+                            int nType = Convert.ToInt32(disk["DriveType"]);
+                            if (nType != Convert.ToInt32(DriveType.Fixed))
+                            {
+                                continue;
+                            }
+                            else
+                            {
+                                harddisk = new HardDiskPartition
+                                {
+                                    FreeSpace = Convert.ToDouble(disk["FreeSpace"]) / (1024 * 1024 * 1024),
+                                    SumSpace = Convert.ToDouble(disk["Size"]) / (1024 * 1024 * 1024),
+                                    PartitionName = disk["DeviceID"].ToString()
+                                };
+                                list.Add(harddisk);
+                            }
                         }
                     }
                 }
@@ -154,7 +157,7 @@ namespace CsharpLazycode.Module.HardDiskPartition
             {
 
             }
-            return list;
+            return list; 
         }
 
 

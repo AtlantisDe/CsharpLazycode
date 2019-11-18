@@ -7,7 +7,7 @@ namespace CsharpLazycode.Module.Laycode.Path
 {
     public class Util
     {
-        public static string toWindowsstyle(string pathstr)
+        public static string ToWindowsstyle(string pathstr)
         {
             var a = pathstr;
             a = a.Replace("/", @"\");

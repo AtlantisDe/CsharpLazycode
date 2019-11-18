@@ -5,7 +5,6 @@ using System.Text;
 
 namespace CsharpLazycode.Module.Extensions
 {
-
 }
 
 
@@ -47,6 +46,22 @@ public static class DateTimeExtenions
         return tmp;
     }
 
+    public static string Format3(this DateTime thisValue, string FormatStr = "yyyy-MM-dd")
+    {
+        var tmp = thisValue.ToString(FormatStr);
+        try
+        {
+            tmp = thisValue.ToString(FormatStr);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(string.Format("异常[{0}]:{1}", System.Reflection.MethodBase.GetCurrentMethod().ReflectedType.FullName, ex.Message));
+        }
+        finally
+        {
+        }
+        return tmp;
+    }
 
 
 }

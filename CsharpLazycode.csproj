@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>CsharpLazycode</RootNamespace>
     <AssemblyName>CsharpLazycode</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
     <TargetFrameworkProfile />
@@ -25,13 +25,14 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
+    <DebugType>none</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>..\..\Lib\My-Package\Src\Framework\.NET\CsharpLazycode\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <Prefer32Bit>false</Prefer32Bit>
+    <FileAlignment>4096</FileAlignment>
   </PropertyGroup>
   <PropertyGroup>
     <SignAssembly>false</SignAssembly>
@@ -43,13 +44,16 @@
   <ItemGroup>
     <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\Lib\My-Package\Src\Framework\.NET\JSON Framework\Newtonsoft.Json\using-9.0.0.0\Newtonsoft.Json.dll</HintPath>
+      <HintPath>..\..\Lib\My-Package\Src\Framework\.NET\JSON Framework\Newtonsoft.Json\using-9.0.0.0\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration.Install" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Management" />
+    <Reference Include="System.Management.Automation, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\..\source\repos\WindemoUI\packages\Microsoft.PowerShell.5.ReferenceAssemblies.1.1.0\lib\net4\System.Management.Automation.dll</HintPath>
+    </Reference>
     <Reference Include="System.Runtime.Caching" />
     <Reference Include="System.ServiceProcess" />
     <Reference Include="System.Web" />
@@ -81,6 +85,9 @@
     <Compile Include="Module\Extensions\DataGridViewExtenions.cs" />
     <Compile Include="Module\Extensions\DateTimeExtenions.cs" />
     <Compile Include="Module\Extensions\byteExtenions.cs" />
+    <Compile Include="Module\Extensions\LongExtenions.cs" />
+    <Compile Include="Module\Extensions\RandomExtenions.cs" />
+    <Compile Include="Module\Extensions\StringBuilderExtenions.cs" />
     <Compile Include="Module\Extensions\StringExtenions.cs" />
     <Compile Include="Module\HardDisk\HardDisk.cs" />
     <Compile Include="Module\HardDisk\HardDiskPartition.cs" />
@@ -94,11 +101,13 @@
     <Compile Include="Module\Laycode\List\MyList.cs" />
     <Compile Include="Module\Laycode\PageEach\Page.cs" />
     <Compile Include="Module\Laycode\Path.cs" />
+    <Compile Include="Module\Laycode\Random.cs" />
     <Compile Include="Module\Laycode\stringExp.cs" />
     <Compile Include="Module\Laycode\words.cs" />
     <Compile Include="Module\Logs\DataGridView\Log.cs" />
     <Compile Include="Module\MD5\MD5.cs" />
     <Compile Include="Module\MemoryCacheHelper\CacheHelper\Util.cs" />
+    <Compile Include="Module\MySystem\ApplicationInfo.cs" />
     <Compile Include="Module\MySystem\MySystem.cs" />
     <Compile Include="Module\NPinyin\Pinyin.cs" />
     <Compile Include="Module\NPinyin\PyCode.cs" />
@@ -116,6 +125,8 @@
     <Compile Include="Module\WindowsService\WindowsServiceContainer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

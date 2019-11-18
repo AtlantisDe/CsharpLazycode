@@ -11,30 +11,30 @@ using System.Threading.Tasks;
 
 namespace CsharpLazycode.Module.Laycode
 {
-    public class str
+    public class Str
     {
 
 
         #region 字符串查找某词出现的次数及索引
 
-        public class keywordfindindexitem
+        public class Keywordfindindexitem
         {
-            public keywordfindindexitem()
+            public Keywordfindindexitem()
             {
-                indexs = new List<int>();
+                Indexs = new List<int>();
             }
-            public string key { get; set; }
-            public List<int> indexs { get; set; }
+            public string Key { get; set; }
+            public List<int> Indexs { get; set; }
         }
 
-        public static List<keywordfindindexitem> Getkeywordfindindexitems(string oldstring, params string[] listkeys)
+        public static List<Keywordfindindexitem> Getkeywordfindindexitems(string oldstring, params string[] listkeys)
         {
-            var keywordfindindexitems = new List<keywordfindindexitem>();
+            var keywordfindindexitems = new List<Keywordfindindexitem>();
 
             for (int i = 0; i < listkeys.Length; i++)
             {
-                var keywordfindindexitem = thekeyInstring(oldstring, listkeys[i]);
-                if (keywordfindindexitem.indexs.Count() <= 1)
+                var keywordfindindexitem = ThekeyInstring(oldstring, listkeys[i]);
+                if (keywordfindindexitem.Indexs.Count() <= 1)
                 {
                     continue;
                 }
@@ -45,14 +45,14 @@ namespace CsharpLazycode.Module.Laycode
             return keywordfindindexitems;
         }
 
-        public static int GetkeywordfindindexitemsINDEXScount(List<keywordfindindexitem> keywordfindindexitems)
+        public static int GetkeywordfindindexitemsINDEXScount(List<Keywordfindindexitem> keywordfindindexitems)
         {
             var count = 0;
 
             for (int i = 0; i < keywordfindindexitems.Count; i++)
             {
                 var a = keywordfindindexitems[i];
-                count = count + a.indexs.Count();
+                count += a.Indexs.Count();
 
             }
 
@@ -60,10 +60,12 @@ namespace CsharpLazycode.Module.Laycode
             return count;
         }
 
-        public static keywordfindindexitem thekeyInstring(string oldstring, string keyWord)
+        public static Keywordfindindexitem ThekeyInstring(string oldstring, string keyWord)
         {
-            var keywordfindindexitem = new keywordfindindexitem();
-            keywordfindindexitem.key = keyWord;
+            var keywordfindindexitem = new Keywordfindindexitem
+            {
+                Key = keyWord
+            };
             //统计出字符串中，下雪出现的次数，并每次出现的索引位置；
             string text = oldstring;
             int index = 0;
@@ -72,44 +74,43 @@ namespace CsharpLazycode.Module.Laycode
             {
                 count++;
                 //Console.WriteLine("第{0}次；索引是{1}", count, index);
-                index = index + keyWord.Length;
-                keywordfindindexitem.indexs.Add(index);
+                index += keyWord.Length;
+                keywordfindindexitem.Indexs.Add(index);
             }
             return keywordfindindexitem;
         }
 
         //随机索引对象
-        public static keywordfindindexitem getRandomitemFromIndexsitems(List<keywordfindindexitem> keywordfindindexitems)
+        public static Keywordfindindexitem GetRandomitemFromIndexsitems(List<Keywordfindindexitem> keywordfindindexitems)
         {
 
-            var rid = CsharpLazycode.Module.Laycode.random.Next(0, keywordfindindexitems.Count);
+            var rid = CsharpLazycode.Module.Laycode.Random.Next(0, keywordfindindexitems.Count);
             if (keywordfindindexitems.IsNullOrEmpty() == false && keywordfindindexitems.Count > 0)
             {
                 return keywordfindindexitems[rid];
             }
 
-            return new keywordfindindexitem();
+            return new Keywordfindindexitem();
         }
         //随机索引
         [Obsolete]
-        public static int getRandomIndexFromIndexsitems(List<keywordfindindexitem> keywordfindindexitems)
+        public static int GetRandomIndexFromIndexsitems(List<Keywordfindindexitem> keywordfindindexitems)
         {
-            var keywordfindindexitem = getRandomitemFromIndexsitems(keywordfindindexitems);
+            var keywordfindindexitem = GetRandomitemFromIndexsitems(keywordfindindexitems);
 
-            var rid = CsharpLazycode.Module.Laycode.random.Next(0, keywordfindindexitem.indexs.Count);
-            if (keywordfindindexitem.indexs.IsNullOrEmpty() == false && keywordfindindexitem.indexs.Count > 0)
+            var rid = CsharpLazycode.Module.Laycode.Random.Next(0, keywordfindindexitem.Indexs.Count);
+            if (keywordfindindexitem.Indexs.IsNullOrEmpty() == false && keywordfindindexitem.Indexs.Count > 0)
             {
-                return keywordfindindexitem.indexs[rid];
+                return keywordfindindexitem.Indexs[rid];
             }
 
             return 0;
         }
         //失败返回-1 成功大于0
-        public static int getRandomCanInsertNextIndexValueFromIndexsitems(string oldstring, List<keywordfindindexitem> keywordfindindexitems)
+        public static int GetRandomCanInsertNextIndexValueFromIndexsitems(string oldstring, List<Keywordfindindexitem> keywordfindindexitems)
         {
-            var keywordfindindexitem = getRandomitemFromIndexsitems(keywordfindindexitems);
+            var keywordfindindexitem = GetRandomitemFromIndexsitems(keywordfindindexitems);
             var oknextindex = -1;
-            var okindex = 0;
             var count = 0;
             while (true)
             {
@@ -118,11 +119,11 @@ namespace CsharpLazycode.Module.Laycode
 
             bool Go001()
             {
-                var rid = CsharpLazycode.Module.Laycode.random.Next(0, keywordfindindexitem.indexs.Count - 1);
-                if (keywordfindindexitem.indexs.IsNullOrEmpty() == false && keywordfindindexitem.indexs.Count > 0)
+                var rid = CsharpLazycode.Module.Laycode.Random.Next(0, keywordfindindexitem.Indexs.Count - 1);
+                if (keywordfindindexitem.Indexs.IsNullOrEmpty() == false && keywordfindindexitem.Indexs.Count > 0)
                 {
-                    okindex = keywordfindindexitem.indexs[rid];
-                    var tmp = oldstring.IndexOf(keywordfindindexitem.key, okindex);
+                    int okindex = keywordfindindexitem.Indexs[rid];
+                    var tmp = oldstring.IndexOf(keywordfindindexitem.Key, okindex);
                     if (tmp > 0)
                     {
                         oknextindex = tmp;
@@ -135,9 +136,7 @@ namespace CsharpLazycode.Module.Laycode
 
             return oknextindex;
         }
-
-
-
+         
 
         //常用中文标点获取
 
@@ -163,7 +162,7 @@ namespace CsharpLazycode.Module.Laycode
             {
                 return "";
             }
-            leftlocation = leftlocation + str1.Length;//获取左边字符串尾所在位置
+            leftlocation += str1.Length;//获取左边字符串尾所在位置
             rightlocation = str.IndexOf(str2, leftlocation);
             //获取右边字符串头所在位置
             if (rightlocation == -1 || leftlocation > rightlocation)//判断右边字符串是否存在于总字符串中，左边字符串位置是否在右边字符串前
@@ -179,7 +178,7 @@ namespace CsharpLazycode.Module.Laycode
             var a = "";
             for (int i = 0; i < count; i++)
             {
-                a = a + zfZI;
+                a += zfZI;
             }
             if (a == "")
             {
@@ -280,7 +279,7 @@ namespace CsharpLazycode.Module.Laycode
                 //Console.WriteLine(item);
                 if (te.Contains(item) == false)
                 { 
-                    oldstr = oldstr + item;
+                    oldstr += item;
                 }
             }
 
@@ -291,7 +290,7 @@ namespace CsharpLazycode.Module.Laycode
 
 
         //传值[0,2] 返回指定某元素,失败返回默认配置值
-        public static int rangeStringReturnindexobj(string Range, int index, int intdefault)
+        public static int RangeStringReturnindexobj(string Range, int index, int intdefault)
         {
 
             try
@@ -324,7 +323,7 @@ namespace CsharpLazycode.Module.Laycode
         }
 
         //取文本前半部分,条件是字符串尾部关键词最后一个匹配前部分字符串
-        public static string getstringLastIndexOf(string inputValue, string LastIndexKeyword)
+        public static string GetstringLastIndexOf(string inputValue, string LastIndexKeyword)
         {
             var last = inputValue.LastIndexOf(LastIndexKeyword);
 
@@ -337,7 +336,7 @@ namespace CsharpLazycode.Module.Laycode
         }
 
         //取文本前半部分,条件是字符串 关键词第一个出现开始前面的字符串
-        public static string getstringIndexOf(string inputValue, string IndexKeyword)
+        public static string GetstringIndexOf(string inputValue, string IndexKeyword)
         {
             var index = inputValue.IndexOf(IndexKeyword);
 
@@ -351,7 +350,7 @@ namespace CsharpLazycode.Module.Laycode
 
 
         //取文本后半部分,条件是字符串尾部关键词最后一个匹配后部分字符串,包含查找关键词
-        public static string getstringLastSectionLastIndexOf_includekeyword(string inputValue, string LastIndexKeyword)
+        public static string GetstringLastSectionLastIndexOf_includekeyword(string inputValue, string LastIndexKeyword)
         {
             var last = inputValue.LastIndexOf(LastIndexKeyword);
 
@@ -364,7 +363,7 @@ namespace CsharpLazycode.Module.Laycode
         }
 
         //取文本后半部分,条件是字符串尾部关键词最后一个匹配后部分字符串,不包含查找关键词
-        public static string getstringLastSectionLastIndexOf_Notincludekeyword(string inputValue, string LastIndexKeyword)
+        public static string GetstringLastSectionLastIndexOf_Notincludekeyword(string inputValue, string LastIndexKeyword)
         {
             var last = inputValue.LastIndexOf(LastIndexKeyword);
 
@@ -438,114 +437,8 @@ namespace CsharpLazycode.Module.Laycode
         }
 
     }
-    public class random
-    {
-        ///<summary>
-        ///生成随机字符串
-        ///</summary>
-        ///<param name="length">目标字符串的长度</param>
-        ///<param name="useNum">是否包含数字，1=包含，默认为包含</param>
-        ///<param name="useLow">是否包含小写字母，1=包含，默认为包含</param>
-        ///<param name="useUpp">是否包含大写字母，1=包含，默认为包含</param>
-        ///<param name="useSpe">是否包含特殊字符，1=包含，默认为不包含</param>
-        ///<param name="custom">要包含的自定义字符，直接输入要包含的字符列表</param>
-        ///<returns>指定长度的随机字符串</returns>
-        public static string GetRandomString(int length, bool useNum, bool useLow, bool useUpp, bool useSpe, string custom)
-        {
-            byte[] b = new byte[4];
-            new System.Security.Cryptography.RNGCryptoServiceProvider().GetBytes(b);
-            //Random r = new Random(BitConverter.ToInt32(b, 0));
-            Random r = new Random(GetRandomSeed());
-            string s = null, str = custom;
-            if (useNum == true) { str += "0123456789"; }
-            if (useLow == true) { str += "abcdefghijklmnopqrstuvwxyz"; }
-            if (useUpp == true) { str += "ABCDEFGHIJKLMNOPQRSTUVWXYZ"; }
-            if (useSpe == true) { str += "!\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~"; }
-            for (int i = 0; i < length; i++)
-            {
-                s += str.Substring(r.Next(0, str.Length - 1), 1);
-            }
 
-            return s;
-        }
-
-
-        public static string GetRandomString(int min, int max, bool useNum, bool useLow, bool useUpp, bool useSpe, string custom)
-        {
-            var rid = CsharpLazycode.Module.Laycode.random.NextIncludeMax(min, max);
-
-            return CsharpLazycode.Module.Laycode.random.GetRandomString(rid, useNum, useLow, useUpp, useSpe, custom);
-        }
-
-
-        //获取随机种子
-        static int GetRandomSeed()
-        {
-            byte[] bytes = new byte[4];
-            System.Security.Cryptography.RNGCryptoServiceProvider rng = new System.Security.Cryptography.RNGCryptoServiceProvider();
-            rng.GetBytes(bytes);
-            return BitConverter.ToInt32(bytes, 0);
-        }
-        //传值(0,2)返回0-1包含1之间的数
-        public static int Next(int minValue, int maxValue)
-        {
-            Random rd = new Random(GetRandomSeed());
-            var id = rd.Next(minValue, maxValue);
-            //Console.WriteLine(id);
-
-
-            return id;
-
-        }
-        //传值(0,2)返回0-2包含2之间的数
-        public static int NextIncludeMax(int minValue, int maxValue)
-        {
-            Random rd = new Random(GetRandomSeed());
-            var id = rd.Next(minValue, maxValue + 1);
-            //Console.WriteLine(id);
-            return id;
-
-        }
-        //传值[0,2]返回0-2包含2之间的数,如果解析异常,返回默认配置值
-        public static int NextIncludeMax(string Range, int intdefault)
-        {
-
-            try
-            {
-                var a = Range.Replace("[", "").Replace("]", "").Trim();
-
-
-
-                if (a.IsContainsIn(","))
-                {
-                    var arr = a.Split(",".ToArray(), StringSplitOptions.RemoveEmptyEntries);
-                    if (arr.Length == 2)
-                    {
-                        int minValue = Convert.ToInt32(arr[0]);
-                        int maxValue = Convert.ToInt32(arr[1]);
-                        Random rd = new Random(GetRandomSeed());
-                        var id = rd.Next(minValue, maxValue + 1);
-                        //Console.WriteLine(id);
-                        return id;
-                    }
-                }
-
-            }
-            catch (Exception ex)
-            {
-                var exErr = string.Format("异常包: [{0}] [{1}] 异常消息:{2}", System.Reflection.MethodBase.GetCurrentMethod().ReflectedType.FullName, System.Reflection.MethodBase.GetCurrentMethod().Name, ex.Message);
-                Console.WriteLine(exErr);
-            }
-            finally
-            {
-            }
-
-            return intdefault;
-        }
-
-    }
-
-    public class sys
+    public class Sys
     {
 
         #region [StructLayout] [Message]
@@ -563,7 +456,7 @@ namespace CsharpLazycode.Module.Laycode
 
 
         #region M_MOUSEEVENTF_MOVE_常量
-        public class M_MOUSEEVENTF_MOVE_常量
+        public class MOUSEEVENTF_MOVE_常量
         {
             //移动鼠标 
             public const int MOUSEEVENTF_MOVE = 0x0001;
@@ -755,7 +648,7 @@ namespace CsharpLazycode.Module.Laycode
 
 
         #region Windows_常量
-        public class M_Windows_常量
+        public class Windows_常量
         {
             public const int GW_CHILD = 5;
             public const int GW_HWNDNEXT = 2;
@@ -774,7 +667,7 @@ namespace CsharpLazycode.Module.Laycode
             //Message Msg;
             do
             {
-                if (PeekMessage(out Message Msg, 0, 0, 0, 0) == 0)
+                if (PeekMessage(out _, 0, 0, 0, 0) == 0)
                 {
                     Thread.Sleep(1);
                 }
@@ -808,7 +701,7 @@ namespace CsharpLazycode.Module.Laycode
             //Message Msg;
             do
             {
-                if (PeekMessage(out Message Msg, 0, 0, 0, 0) == 0)
+                if (PeekMessage(out _, 0, 0, 0, 0) == 0)
                 {
                     Thread.Sleep(1);
                 }
@@ -839,7 +732,7 @@ namespace CsharpLazycode.Module.Laycode
             //Message Msg;
             do
             {
-                if (PeekMessage(out Message Msg, 0, 0, 0, 0) == 0)
+                if (PeekMessage(out _, 0, 0, 0, 0) == 0)
                 {
                     Thread.Sleep(1);
                 }
@@ -860,7 +753,7 @@ namespace CsharpLazycode.Module.Laycode
         #endregion
     }
 
-    public class img
+    public class Img
     {
         //参数是图片的路径
         public static byte[] GetPictureData(string imagePath)

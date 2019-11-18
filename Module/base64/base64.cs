@@ -7,18 +7,18 @@ namespace CsharpLazycode.Module.base64
 {
     public class Util
     {
-        public static string beforeEncode(string base64string)
+        public static string BeforeEncode(string base64string)
         {
             return base64string.Replace("+", "%2B");
         }
-        public static string afterDecode(string base64string)
+        public static string AfterDecode(string base64string)
         {
             return base64string.Replace("%2B", "+");
         }
         //base64字符串解密为字符串,本类型:解密-(加密base64替换的数据)
-        public static string afterDecodeRspace(string base64string, System.Text.Encoding encode = null)
+        public static string AfterDecodeRspace(string base64string, System.Text.Encoding encode = null)
         {
-            var abase64 = Convert.FromBase64String(CsharpLazycode.Module.base64.Util.afterDecode(base64string));
+            var abase64 = Convert.FromBase64String(CsharpLazycode.Module.base64.Util.AfterDecode(base64string));
 
             string nobase64string = "";
             try
@@ -34,7 +34,7 @@ namespace CsharpLazycode.Module.base64
             return nobase64string;
         }
 
-        public static string base64ToString(string base64string, System.Text.Encoding encode = null)
+        public static string Base64ToString(string base64string, System.Text.Encoding encode = null)
         {
 
             var DeStr = "";
@@ -52,7 +52,7 @@ namespace CsharpLazycode.Module.base64
         }
 
         //字符串到Base64加密字符串
-        public static string string2base64(string text, System.Text.Encoding encode = null)
+        public static string String2base64(string text, System.Text.Encoding encode = null)
         {
             //string  to  base64
             string base64string = "";

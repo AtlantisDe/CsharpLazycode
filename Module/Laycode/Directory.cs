@@ -24,7 +24,7 @@ namespace CsharpLazycode.Module.Laycode.directory
 
         public static DirectoryInfo[] GetDirectories(string folderFullName)
         {
-            var lst = new List<string>();
+           
             DirectoryInfo TheFolder = new DirectoryInfo(folderFullName);
             return TheFolder.GetDirectories();
 
@@ -32,7 +32,12 @@ namespace CsharpLazycode.Module.Laycode.directory
         }
 
 
-        //实现复制文件夹中文件到另一个文件夹的方法
+        /// <summary>
+        /// 实现复制文件夹中文件到另一个文件夹的方法
+        /// </summary>
+        /// <param name="srcPath"></param>
+        /// <param name="aimPath"></param>
+        /// <returns></returns>
         public static bool CopyDir(string srcPath, string aimPath)
         {
             try

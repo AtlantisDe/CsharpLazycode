@@ -17,7 +17,7 @@ namespace CsharpLazycode.Module.Laycode.words
             string[] averageConsonants = "sh,sh,st,st,b,c,f,g,h,k,l,m,p,p,ph,wh".Split(',');
             string[] middleConsonants = "x,ss,ss,ch,ch,ck,ck,dd,kn,rt,gh,mm,nd,nd,nn,pp,ps,tt,ff,rr,rk,mp,ll".Split(','); //Can't start
             string[] rareConsonants = "j,j,j,v,v,w,w,w,z,qu,qu".Split(',');
-            Random rng = new Random(Guid.NewGuid().GetHashCode());
+            System.Random rng = new System.Random(Guid.NewGuid().GetHashCode());
             int[] lengthArray = new int[] { 2, 2, 2, 2, 2, 2, 3, 3, 3, 4 }; //Favor shorter names but allow longer ones
             int length = lengthArray[rng.Next(lengthArray.Length)];
             for (int i = 0; i < length; i++)

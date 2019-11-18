@@ -75,7 +75,7 @@ public static class IsWhatExtenions
 
     //自己添加扩展
     //文本中必须全部包含判断的元素
-    public static bool allIncluded(this string thisValue, params string[] inValues)
+    public static bool AllIncluded(this string thisValue, params string[] inValues)
     {
         for (int i = 0; i < inValues.Length; i++)
         {
@@ -83,7 +83,7 @@ public static class IsWhatExtenions
         }
         return true;
     }
-    public static bool allIncludedCaseSensitive(this string thisValue, params string[] inValues)
+    public static bool AllIncludedCaseSensitive(this string thisValue, params string[] inValues)
     {
         for (int i = 0; i < inValues.Length; i++)
         {
@@ -179,8 +179,7 @@ public static class IsWhatExtenions
     public static bool IsMoney(this object thisValue)
     {
         if (thisValue == null) return false;
-        double outValue = 0;
-        return double.TryParse(thisValue.ToString(), out outValue);
+        return double.TryParse(thisValue.ToString(), out _);
     }
 
     /// <summary>
@@ -191,8 +190,7 @@ public static class IsWhatExtenions
     public static bool IsDate(this object thisValue)
     {
         if (thisValue == null) return false;
-        DateTime outValue = DateTime.MinValue;
-        return DateTime.TryParse(thisValue.ToString(), out outValue);
+        return DateTime.TryParse(thisValue.ToString(), out _);
     }
 
     /// <summary>

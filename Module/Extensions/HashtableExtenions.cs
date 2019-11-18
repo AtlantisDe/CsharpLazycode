@@ -20,7 +20,7 @@ public static class HashtableExtenions
         {
             if (ht.Keys.Equals(item))
             {
-                tmp = tmp + item;
+                tmp += item;
             }
             else
             {

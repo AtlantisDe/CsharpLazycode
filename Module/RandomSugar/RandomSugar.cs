@@ -157,9 +157,8 @@ namespace CsharpLazycode.Module.RandomSugar
         /// <returns>随机的数值</returns>
         public static int GetFormatedNumeric(int min, int max)
         {
-            int num = 0;
             Random ro = new Random(unchecked(seed * (int)DateTime.Now.Ticks));
-            num = ro.Next(min, max);
+            int num = ro.Next(min, max);
             seed++;
             return num;
         }

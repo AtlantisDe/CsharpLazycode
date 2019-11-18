@@ -7,24 +7,24 @@ namespace CsharpLazycode.Module.Color
 {
     public class Util
     {
-        public static string cssRandomrgbvalue
+        public static string CssRandomrgbvalue
         {
             get
             {
-                var r1 = CsharpLazycode.Module.Laycode.random.NextIncludeMax(0, 255);
-                var r2 = CsharpLazycode.Module.Laycode.random.NextIncludeMax(0, 255);
-                var r3 = CsharpLazycode.Module.Laycode.random.NextIncludeMax(0, 255);
+                var r1 = CsharpLazycode.Module.Laycode.Random.NextIncludeMax(0, 255);
+                var r2 = CsharpLazycode.Module.Laycode.Random.NextIncludeMax(0, 255);
+                var r3 = CsharpLazycode.Module.Laycode.Random.NextIncludeMax(0, 255);
                 var a = string.Format("rgb({0}, {1}, {2})", r1, r2, r3);
                 return a;
             }
         }
-        public static string cssRandomToHtmlvalue
+        public static string CssRandomToHtmlvalue
         {
             get
             {
-                var r1 = CsharpLazycode.Module.Laycode.random.NextIncludeMax(0, 255);
-                var r2 = CsharpLazycode.Module.Laycode.random.NextIncludeMax(0, 255);
-                var r3 = CsharpLazycode.Module.Laycode.random.NextIncludeMax(0, 255);
+                var r1 = CsharpLazycode.Module.Laycode.Random.NextIncludeMax(0, 255);
+                var r2 = CsharpLazycode.Module.Laycode.Random.NextIncludeMax(0, 255);
+                var r3 = CsharpLazycode.Module.Laycode.Random.NextIncludeMax(0, 255);
 
                 var color = System.Drawing.Color.FromArgb(r1, r2, r3);
 
@@ -32,15 +32,15 @@ namespace CsharpLazycode.Module.Color
             }
         }
 
-        public static char[] cssRandomToHtmlvaluechararg
+        public static char[] CssRandomToHtmlvaluechararg
         {
             get
             {
-                return cssRandomToHtmlvalue.ToArray();
+                return CssRandomToHtmlvalue.ToArray();
             }
         }
 
-        public static string css_color_random_Like_aaaaaa(string oldstring)
+        public static string Css_color_random_Like_aaaaaa(string oldstring)
         {
             //Console.WriteLine("28a745".Length);
             var arg = oldstring.ToCharArray();
@@ -55,7 +55,7 @@ namespace CsharpLazycode.Module.Color
 
                 if (ele_a == color_begin && ele_b == color_end)
                 {
-                    var newcolor = CsharpLazycode.Module.Color.Util.cssRandomToHtmlvaluechararg;
+                    var newcolor = CsharpLazycode.Module.Color.Util.CssRandomToHtmlvaluechararg;
                     for (int j = 0; j < newcolor.Length; j++)
                     {
                         arg[i + j] = newcolor[j];
@@ -63,7 +63,6 @@ namespace CsharpLazycode.Module.Color
                 }
             }
             var newstr = new string(arg);
-            arg = null;
             return newstr;
         }
     }

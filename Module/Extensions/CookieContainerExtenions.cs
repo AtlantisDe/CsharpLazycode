@@ -20,7 +20,7 @@ namespace CsharpLazycode.Module.Extensions
 
         public static CookieCollection GetAllCookiesFromHeader(string strHeader, string strHost)
         {
-            ArrayList al = new ArrayList();
+ 
             CookieCollection cc = new CookieCollection();
 
          
@@ -28,7 +28,7 @@ namespace CsharpLazycode.Module.Extensions
             {
                 if (strHeader != string.Empty)
                 {
-                    al = ConvertCookieHeaderToArrayList(strHeader);
+                    ArrayList al = ConvertCookieHeaderToArrayList(strHeader);
                     cc = ConvertCookieArraysToCookieCollection(al, strHost);
                 }
             }
@@ -56,13 +56,13 @@ namespace CsharpLazycode.Module.Extensions
                 if (strCookTemp[i].IndexOf("expires=", StringComparison.OrdinalIgnoreCase) > 0)
                 {
                     al.Add(strCookTemp[i] + "," + strCookTemp[i + 1]);
-                    i = i + 1;
+                    i += 1;
                 }
                 else
                 {
                     al.Add(strCookTemp[i]);
                 }
-                i = i + 1;
+                i += 1;
             }
             return al;
         }
@@ -80,9 +80,6 @@ namespace CsharpLazycode.Module.Extensions
                 strEachCook = al[i].ToString();
                 strEachCookParts = strEachCook.Split(';');
                 int intEachCookPartsCount = strEachCookParts.Length;
-                string strCNameAndCValue = string.Empty;
-                string strPNameAndPValue = string.Empty;
-                string strDNameAndDValue = string.Empty;
                 string[] NameValuePairTemp;
                 Cookie cookTemp = new Cookie();
 
@@ -90,7 +87,7 @@ namespace CsharpLazycode.Module.Extensions
                 {
                     if (j == 0)
                     {
-                        strCNameAndCValue = strEachCookParts[j];
+                        string strCNameAndCValue = strEachCookParts[j];
                         if (strCNameAndCValue != string.Empty)
                         {
                             int firstEqual = strCNameAndCValue.IndexOf("=");
@@ -101,6 +98,7 @@ namespace CsharpLazycode.Module.Extensions
                         }
                         continue;
                     }
+                    string strPNameAndPValue;
                     if (strEachCookParts[j].IndexOf("path", StringComparison.OrdinalIgnoreCase) >= 0)
                     {
                         strPNameAndPValue = strEachCookParts[j];

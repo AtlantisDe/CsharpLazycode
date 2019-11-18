@@ -47,7 +47,7 @@ public static class StringExtenions
             {
                 return "";
             }
-            leftlocation = leftlocation + str1.Length;//获取左边字符串尾所在位置
+            leftlocation += str1.Length;//获取左边字符串尾所在位置
             rightlocation = str.IndexOf(str2, leftlocation);
             //获取右边字符串头所在位置
             if (rightlocation == -1 || leftlocation > rightlocation)//判断右边字符串是否存在于总字符串中，左边字符串位置是否在右边字符串前
@@ -95,7 +95,7 @@ public static class StringExtenions
                     leftlocationStart = -1;
                     return false;
                 }
-                leftlocation = leftlocation + str1.Length;//获取左边字符串尾所在位置
+                leftlocation += str1.Length;//获取左边字符串尾所在位置
                 rightlocation = str.IndexOf(str2, leftlocation);
                 //获取右边字符串头所在位置
                 if (rightlocation == -1 || leftlocation > rightlocation)//判断右边字符串是否存在于总字符串中，左边字符串位置是否在右边字符串前
@@ -135,7 +135,6 @@ public static class StringExtenions
 
     }
 
-
     public static string GetStringMidFromEnd(this string str, string str1, string str2)
     {
         try
@@ -172,8 +171,6 @@ public static class StringExtenions
 
     }
 
-
-
     public static bool IsNumeric(this string str)
     {
         if (str == null || str.Length == 0)
@@ -194,7 +191,7 @@ public static class StringExtenions
     {
         try
         {
-            return CsharpLazycode.Module.MessageDigestAlgorithm.Util.md5(str);
+            return CsharpLazycode.Module.MessageDigestAlgorithm.Util.Md5(str);
         }
         catch (Exception ex)
         {
@@ -221,14 +218,46 @@ public static class StringExtenions
         return 0;
     }
 
+    public static List<string> ToListGet(this string str, string separatorStr = "\r\n", StringSplitOptions options = StringSplitOptions.RemoveEmptyEntries)
+    {
+        var items = new List<string>();
+        try
+        {
+            items = str.Split(separatorStr.ToArray(), options).ToList();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(string.Format("异常[{0}]:{1}", System.Reflection.MethodBase.GetCurrentMethod().ReflectedType.FullName, ex.Message));
+        }
+        finally
+        {
+        }
+        return items;
+    }
+    public static string[] ToArrayGet(this string str, string separatorStr = "\r\n", StringSplitOptions options = StringSplitOptions.RemoveEmptyEntries)
+    {
+        var items = new string[0];
+        try
+        {
+            items = str.Split(separatorStr.ToArray(), options);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(string.Format("异常[{0}]:{1}", System.Reflection.MethodBase.GetCurrentMethod().ReflectedType.FullName, ex.Message));
+        }
+        finally
+        {
 
+        }
+        return items;
+    }
 
 
     public static string ToBase64(this string str, System.Text.Encoding encode = null)
     {
         try
         {
-            return CsharpLazycode.Module.base64.Util.string2base64(str, encode);
+            return CsharpLazycode.Module.base64.Util.String2base64(str, encode);
         }
         catch (Exception ex)
         {
@@ -239,11 +268,29 @@ public static class StringExtenions
         }
         return "";
     }
+    public static string ToBase64Typewebrequest(this string str, System.Text.Encoding encode = null)
+    {
+        try
+        {
+            var base64 = CsharpLazycode.Module.base64.Util.String2base64(str, encode);
+            base64 = CsharpLazycode.Module.base64.Util.AfterDecode(base64);
+            return base64;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(string.Format("异常[{0}]:{1}", System.Reflection.MethodBase.GetCurrentMethod().ReflectedType.FullName, ex.Message));
+        }
+        finally
+        {
+        }
+        return "";
+    }
+
     public static string Base64ToDeString(this string str, System.Text.Encoding encode = null)
     {
         try
         {
-            return CsharpLazycode.Module.base64.Util.base64ToString(str, encode);
+            return CsharpLazycode.Module.base64.Util.Base64ToString(str, encode);
         }
         catch (Exception ex)
         {
@@ -255,17 +302,26 @@ public static class StringExtenions
         return "";
     }
 
-    public static T GetMemoryCacheDefault<T>(this string key)
+    /// <summary>
+    /// 可传入默认值 发生异常返回默认值
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="key"></param>
+    /// <param name="defaultvalue"></param>
+    /// <returns></returns>
+    public static T GetMemoryCacheDefault<T>(this string key, T defaultvalue = default)
     {
-        var cache = System.Runtime.Caching.MemoryCache.Default;
 
+        var cache = System.Runtime.Caching.MemoryCache.Default;
         try
         {
+
             return (T)cache[key];
         }
         catch (Exception)
         {
-            return default(T);
+
+            return defaultvalue;
         }
     }
 
@@ -364,6 +420,43 @@ public static class StringExtenions
         return false;
     }
 
+    public static void ClearFolder(this string path)
+    {
+        try
+        {
+            DirectoryInfo dir = new DirectoryInfo(path);
+
+            foreach (FileInfo fi in dir.GetFiles())
+            {
+                try
+                {
+                    fi.Delete();
+                }
+                catch (Exception) { } // Ignore all exceptions
+            }
+
+            foreach (DirectoryInfo di in dir.GetDirectories())
+            {
+                ClearFolder(di.FullName);
+                try
+                {
+                    di.Delete();
+                }
+                catch (Exception) { } // Ignore all exceptions
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(string.Format("异常[{0}]:{1}", System.Reflection.MethodBase.GetCurrentMethod().ReflectedType.FullName, ex.Message));
+        }
+        finally
+        {
+        }
+
+
+
+    }
+
     public static string GetFolderName(this string path)
     {
         try
@@ -381,7 +474,6 @@ public static class StringExtenions
         return "";
     }
 
-
     public static List<string> EnumFolderPath(this string path)
     {
         var Items = new List<string>();
@@ -393,10 +485,7 @@ public static class StringExtenions
             {
                 var item = getDirectories[i];
 
-                if (item.FullName.Contains("tp_") == true)
-                {
-                    Items.Add(item.FullName);
-                }
+                Items.Add(item.FullName);
             }
 
         }
@@ -569,7 +658,7 @@ public static class StringExtenions
 
     }
 
-    public static List<string> EnumFilePath(this string dirpath, string fileExtension)
+    public static List<string> EnumFilePath(this string dirpath, string fileExtension = "*")
     {
         var items = new List<string>();
         DirectoryInfo TheFolder = new DirectoryInfo(dirpath);
@@ -577,21 +666,29 @@ public static class StringExtenions
         for (int i = 0; i < FileInfos.Length; i++)
         {
             var a = FileInfos[i];
-            if (Path.GetExtension(a.FullName).ToLower() == fileExtension.ToLower())
+
+            if (fileExtension == "*")
             {
                 items.Add(a.FullName);
             }
+            else
+            {
+                if (Path.GetExtension(a.FullName).ToLower() == fileExtension.ToLower())
+                {
+                    items.Add(a.FullName);
+                }
+            }
+
+
         }
 
         return items;
     }
 
-
     public static bool ContainsCase(this string source, string toCheck, StringComparison comp = StringComparison.OrdinalIgnoreCase)
     {
         return source.IndexOf(toCheck, comp) >= 0;
     }
-
 
     public static void SaveDocument(this string path, string content, System.Text.Encoding encoding = null)
     {
@@ -654,13 +751,11 @@ public static class StringExtenions
     {
         return await Task.Run(() =>
         {
-            return path.ReadDocument();
+            return path.ReadDocument(encoding);
         });
 
 
     }
-
-
 
     public static string ToWindowsStyle(this string pathstr)
     {
@@ -670,12 +765,10 @@ public static class StringExtenions
         return a;
     }
 
-
     public static string FilterCharNotIncludeUnderline(this string inputValue)
     {
         return Regex.Replace(inputValue, @"\W", "");
     }
-
 
     //static string GetFileNameFromUrl(string url)
     //{
@@ -685,6 +778,117 @@ public static class StringExtenions
 
     //    return Path.GetFileName(uri.LocalPath);
     //}
+
+    //字符串替换第一次
+    public static string StringRemoveInsertFirstTime(this string lon, string oldChar, string newChar)
+    {
+        //第一次出现的位置
+        int a = lon.IndexOf(oldChar);
+
+        if (a != -1)
+        {
+            lon = lon.Remove(a, oldChar.Length).Insert(a, newChar);
+        }
+
+        return lon;
+    }
+
+    //字符串替换最后一次出现的匹配项
+    public static string StringRemoveInsertLastTime(this string lon, string oldChar, string newChar)
+    {
+        //第一次出现的位置
+        int a = lon.LastIndexOf(oldChar);
+
+        if (a != -1)
+        {
+            lon = lon.Remove(a, oldChar.Length).Insert(a, newChar);
+        }
+
+        return lon;
+    }
+
+    //替换
+    public static string ReplaceWithStringBuilder(this string value, IEnumerable<Tuple<string, string>> toReplace)
+    {
+        var result = new StringBuilder(value);
+        foreach (var item in toReplace)
+        {
+            result.Replace(item.Item1, item.Item2);
+        }
+        return result.ToString();
+    }
+
+    //替换
+    public static string HtmlYasuo(this string value)
+    {
+        IEnumerable<Tuple<string, string>> toReplace = new[]{
+           Tuple.Create("\r\n", String.Empty),
+              Tuple.Create("\r\n", String.Empty),
+
+       };
+        var result = new StringBuilder(value);
+        foreach (var item in toReplace)
+        {
+            result.Replace(item.Item1, item.Item2);
+        }
+        return result.ToString();
+    } 
+
+    public delegate string ChangeEveryTimesNewwordDelegate();
+
+    //同个关键词每次替换不同
+    public static string ReplaceEveryTimeDifferentWithStringBuilder(this string str, string oldStr, ChangeEveryTimesNewwordDelegate newwordDelegate)
+    {
+        string newStr; 
+      
+        //Console.WriteLine("将字符串中的{0}替换成{1}···", oldStr, newStr);
+        StringBuilder strBuffer = new StringBuilder();
+        int start = 0;
+        int tail = 0;
+
+        //一旦找不到需要替换的字符串(第一次IndexOf返回-1)
+        //就说明没有该关键字符串，可以直接返回之前的字符串
+        if (str.IndexOf(oldStr) == -1)
+        {
+            //Console.WriteLine("没有找到需要替换的关键字符串!");
+            return str;
+        }
+
+        //每次都不断循环，查找这个x
+        //一旦找到了，就把它之前和上一个x之后的字符串拼接起来
+        while (true)
+        {
+            start = str.IndexOf(oldStr, start);
+            if (start == -1)
+            {
+                break;
+            }
+            strBuffer.Append(str.Substring(tail, start - tail));
+            newStr = newwordDelegate();
+            strBuffer.Append(newStr);
+            start += oldStr.Length;
+            tail = start;
+        }
+
+        //查找到最后一个位置之后
+        //还要把剩下的字符串拼接进去
+        strBuffer.Append(str.Substring(tail));
+        return strBuffer.ToString();
+    }
+
+    //同个关键词每次替换不同
+    public static string ReplaceEveryTimeDifferentWithRegex(this string str, string oldStr, ChangeEveryTimesNewwordDelegate newwordDelegate)
+    {
+        string newStr;
+        while (str.IndexOf(oldStr) > 0)
+        {
+            Regex regex = new Regex(oldStr);//要替换字符串
+            newStr = newwordDelegate();
+            str = regex.Replace(str, newStr, 1);//最后一个参数是替换的次数 
+        }
+        return str;
+    }
+
 
 }
 

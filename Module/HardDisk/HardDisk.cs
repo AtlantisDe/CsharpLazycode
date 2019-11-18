@@ -17,7 +17,7 @@ namespace CsharpLazycode.Module.HardDisk
 
             long totalSize = new long();
 
-            str_HardDiskName = str_HardDiskName + ":\\";
+            str_HardDiskName += ":\\";
 
             System.IO.DriveInfo[] drives = System.IO.DriveInfo.GetDrives();
 
@@ -60,7 +60,7 @@ namespace CsharpLazycode.Module.HardDisk
 
             long freeSpace = new long();
 
-            str_HardDiskName = str_HardDiskName + ":\\";
+            str_HardDiskName += ":\\";
 
             System.IO.DriveInfo[] drives = System.IO.DriveInfo.GetDrives();
 
@@ -94,25 +94,25 @@ namespace CsharpLazycode.Module.HardDisk
             {
                 hardDiskInfo.HardDiskName = str_HardDiskName;
 
-                hardDiskInfo.utotal = GetHardDiskSpace(str_HardDiskName);
-                hardDiskInfo.ufree = GetHardDiskFreeSpace(str_HardDiskName);
+                hardDiskInfo.Utotal = GetHardDiskSpace(str_HardDiskName);
+                hardDiskInfo.Ufree = GetHardDiskFreeSpace(str_HardDiskName);
 
-                hardDiskInfo.Percent = ((hardDiskInfo.ufree * 1.0 / hardDiskInfo.utotal) * 100).ToString("0.00") + "%";
+                hardDiskInfo.Percent = ((hardDiskInfo.Ufree * 1.0 / hardDiskInfo.Utotal) * 100).ToString("0.00") + "%";
 
-                hardDiskInfo.total = CsharpLazycode.Module.HardDisk.size.Util.GetString(hardDiskInfo.utotal);
-                hardDiskInfo.free = CsharpLazycode.Module.HardDisk.size.Util.GetString(hardDiskInfo.ufree);
+                hardDiskInfo.Total = CsharpLazycode.Module.HardDisk.size.Util.GetString(hardDiskInfo.Utotal);
+                hardDiskInfo.Free = CsharpLazycode.Module.HardDisk.size.Util.GetString(hardDiskInfo.Ufree);
 
             }
             catch (Exception ex)
             {
 
-                hardDiskInfo.utotal = 0;
-                hardDiskInfo.ufree = 0;
+                hardDiskInfo.Utotal = 0;
+                hardDiskInfo.Ufree = 0;
 
                 hardDiskInfo.Percent = "异常" + "%";
 
-                hardDiskInfo.total = "异常";
-                hardDiskInfo.free = "异常";
+                hardDiskInfo.Total = "异常";
+                hardDiskInfo.Free = "异常";
 
                 var exErr = string.Format("异常[{0}]:{1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.Message);
                 Console.WriteLine(exErr);
@@ -130,12 +130,12 @@ namespace CsharpLazycode.Module.HardDisk
             public string HardDiskName { get; set; }
 
 
-            public string total { get; set; }
-            public string free { get; set; }
+            public string Total { get; set; }
+            public string Free { get; set; }
 
 
-            public long utotal { get; set; }
-            public long ufree { get; set; }
+            public long Utotal { get; set; }
+            public long Ufree { get; set; }
 
             public string Percent { get; set; }
 
